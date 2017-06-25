@@ -70,8 +70,8 @@ $(function(){
                         admin.error(msg.info,'#loginsubmit');
                         formLogin.attr('disabledSubmit','');
                         // refreshs();
-                        $('.yanzheng_img').eq(0).click();
-                        $('#verify').val('')
+                        // $('.yanzheng_img').eq(0).click();
+                        // $('#verify').val('')
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown){

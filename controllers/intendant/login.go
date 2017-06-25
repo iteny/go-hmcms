@@ -1,6 +1,7 @@
 package intendant
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 
@@ -17,4 +18,10 @@ func Login(w http.ResponseWriter, r *http.Request, ps router.Params) {
 	tl.Execute(w, nil)
 	// fmt.Fprintf(w, "%v", username.Value)
 
+}
+
+//login handlered
+func LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
+	s := r.PostFormValue("username")
+	fmt.Println(s)
 }
