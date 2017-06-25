@@ -4,10 +4,10 @@ body{
     background: #008eb7;
 }
 #container{
-    
+
     /*margin-top: 10em;*/
     position:absolute;top:40%;left: 50%;margin-left:-200px;margin-top:-100px;
-    
+
     width: 350px;
     height: 300px;
     /*border: 1px solid red;*/
@@ -18,7 +18,7 @@ body{
     /*overflow: hidden;*/
     /*height: 125px;*/
     color: white;
-    font-family: "Microsoft YaHei" ! important; font-weight: bold;
+    font: 12px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
     text-align: center;
     /*text-indent: -3000px;*/
 }
@@ -112,7 +112,7 @@ input {
     padding-bottom: 17px;
 }
  input{width: 250px;font-size: 18px;outline:none;
-  font-family: "Microsoft YaHei" ! important; font-weight: bold}
+  font-family: Tahoma,Helvetica,Arial,'宋体',sans-serif;}
 ul{margin-bottom: 15px;}
 .icon-user:before {
     content: '\e80a';
@@ -164,7 +164,7 @@ ul{margin-bottom: 15px;}
 }
 .button {
     color: white;
-    background: #ef4300;   
+    background: #ef4300;
     border:1px solid #ff730e
 }
 .button.full-width {
@@ -188,7 +188,7 @@ ul{margin-bottom: 15px;}
     -moz-border-radius: 2px;
     border-radius: 2px;
 }
-button.button:hover{   
+button.button:hover{
 -moz-box-shadow:
         0 15px 30px 0 rgba(255,255,255,.15) inset,
         0 2px 7px 0 rgba(0,0,0,.2);
