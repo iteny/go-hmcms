@@ -2,9 +2,11 @@ package intendant
 
 import (
 	"fmt"
+	"go-hmcms/models/common"
 	"html/template"
 	"net/http"
 
+	"github.com/iteny/hmgo/govalidator"
 	"github.com/iteny/hmgo/router"
 )
 
@@ -22,6 +24,26 @@ func Login(w http.ResponseWriter, r *http.Request, ps router.Params) {
 
 //login handlered
 func LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
-	s := r.PostFormValue("username")
-	fmt.Println(s)
+	username, password := r.PostFormValue("username"), r.PostFormValue("password")
+	isuser := govalidator.IsByteLength(username, 5, 15)
+	ispass := govalidator.IsByteLength(password, 8, 15)
+	switch false {
+	case isuser:
+		fmt.Fprint(w, common.MapJson("status", 4, "info", "用户名的长度为5位到15位！"))
+		return
+	case ispass:
+		fmt.Fprint(w, common.MapJson("status", 4, "info", "密码的长度为8位到15位！"))
+		return
+	default:
+		// common.Log.Critical("1111")
+
+		fmt.Fprint(w, common.MapJson("status", 1, "info", "账号密码长度OK"))
+	}
+
+}
+
+//error package
+func Error(w http.ResponseWriter, r *http.Request, ps router.Params) {
+	tl, _ := template.ParseFiles("./view/intendant/error/error.html")
+	tl.Execute(w, nil)
 }

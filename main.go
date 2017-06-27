@@ -30,7 +30,9 @@ func main() {
 	router := router.New()
 	router.GET("/admin", intendant.Login)
 	router.POST("/admin/login", intendant.LoginGo)
+	// router.NotFound = router.GET("/error", intendant.Error)
 	router.GET("/static/*filepath", StaticServer)
+
 	s := &http.Server{
 		Addr:           ":" + strconv.Itoa(port),
 		Handler:        router,
