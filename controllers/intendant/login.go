@@ -5,6 +5,7 @@ import (
 	"go-hmcms/models/common"
 	"html/template"
 	"net/http"
+	"time"
 
 	"github.com/iteny/hmgo/govalidator"
 	"github.com/iteny/hmgo/router"
@@ -36,7 +37,10 @@ func LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
 		return
 	default:
 		// common.Log.Critical("1111")
-
+		// r, _ := sql.FetchRow("SELECT * FROM user")
+		// fmt.Println(r)
+		timestamp := time.Now().Unix()
+		fmt.Println(timestamp, time.Now())
 		fmt.Fprint(w, common.MapJson("status", 1, "info", "账号密码长度OK"))
 	}
 
