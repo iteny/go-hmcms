@@ -3,6 +3,7 @@ package intendant
 import (
 	"fmt"
 	"go-hmcms/models/common"
+	"go-hmcms/models/sql"
 	"html/template"
 	"net/http"
 	"time"
@@ -37,8 +38,8 @@ func LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
 		return
 	default:
 		// common.Log.Critical("1111")
-		// r, _ := sql.FetchRow("SELECT * FROM user")
-		// fmt.Println(r)
+		r, _ := sql.FetchRow("SELECT * FROM hm_user")
+		fmt.Println(r)
 		timestamp := time.Now().Unix()
 		fmt.Println(timestamp, time.Now())
 		fmt.Fprint(w, common.MapJson("status", 1, "info", "账号密码长度OK"))
