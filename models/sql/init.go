@@ -14,7 +14,7 @@ var sqlitedb *sql.DB
 func init() {
 	var err error
 	//sql type
-	switch ini.Key("sql", "sqltype") {
+	switch ini.Value("sql", "sqltype") {
 	case "sqlite":
 		sqlitedb, err = sql.Open("sqlite3", "./sql/hmcms.db")
 		if err != nil {
