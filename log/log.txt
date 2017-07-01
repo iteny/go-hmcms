@@ -1,3 +1,2 @@
-
-rror when getting key of section 'section sql': key 'key sqltype' not exists
-<nil>
+time:2017-07-01 22:02:17 path:./controllers/intendant/login.go:43line info:
+time:2017-07-01 22:02:49 path:./controllers/intendant/login.go:43line info:

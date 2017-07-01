@@ -37,13 +37,25 @@ func LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
 		return
 	default:
 		// common.Log.Critical("1111")
-		sqls := "SELECT * FROM hm_user WHERE username = ? AND password = ?"
-		row, _ := sql.SelectOne(sqls, username, common.Sha1PlusMd5(password))
-		fmt.Println(row)
-		// timestamp := time.Now().Unix()
-		// fmt.Println(timestamp, time.Now())
-		fmt.Println(common.Sha1PlusMd5("admin"))
-		fmt.Fprint(w, common.ResponseJson("status", 1, "info", "账号密码长度OK"))
+		sqls := "SELECT id,username,status FROM hm_user WHERE username = ? AND password = ?"
+		row, err := sql.SelectOne(sqls, username, common.Sha1PlusMd5(password))
+		if err == nil {
+			common.LogerInsertText("./controllers/intendant/login.go:43line", err)
+			return
+		} else {
+			if row["id"] != "" {
+				fmt.Println(row["id"])
+				// timestamp := time.Now().Unix()
+				// fmt.Println(timestamp, time.Now())
+				var err error
+				common.LogerInsertText("./controllers/intendant/login.go:43line", err)
+				fmt.Println(common.Sha1PlusMd5("admin"))
+				fmt.Fprint(w, common.ResponseJson("status", 1, "info", "登录成功，3秒后为你跳转！"))
+			} else {
+				fmt.Fprint(w, common.ResponseJson("status", 4, "info", "用户名或密码错误！"))
+			}
+		}
+
 	}
 
 }

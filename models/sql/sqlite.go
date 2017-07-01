@@ -33,7 +33,7 @@ func Exec(sqlstr string, args ...interface{}) (int64, error) {
 }
 
 //取一行数据，注意这类取出来的结果都是string
-func SelectOne(sqlstr string, args ...interface{}) (*map[string]string, error) {
+func SelectOne(sqlstr string, args ...interface{}) (map[string]string, error) {
 	stmtOut, err := sqlitedb.Prepare(sqlstr)
 	if err != nil {
 		panic(err.Error())
@@ -74,7 +74,7 @@ func SelectOne(sqlstr string, args ...interface{}) (*map[string]string, error) {
 		}
 		break //get the first row only
 	}
-	return &ret, nil
+	return ret, nil
 }
 
 //取多行，注意这类取出来的结果都是string

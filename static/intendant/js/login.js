@@ -27,7 +27,8 @@ $(function(){
         // e.preventDefault();
         // alert("sdfasd");
         var username = $.trim($('#username').val()),
-            password = $.trim($('#password').val());
+            password = $.trim($('#password').val()),
+            userreg = /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/;
             // verify = $.trim($('#verify').val());
         if (username.length === 0)
         {
@@ -37,6 +38,14 @@ $(function(){
         else if (password.length === 0)
         {
             admin.error('密码不能为空','#passli');
+            return false;
+        }else if(!userreg.test(username))
+        {
+            admin.error('以字母开头，长度在5-15位之间，只能包含字符、数字和下划线。 ','#userli');
+            return false;
+        }else if(!userreg.test(password))
+        {
+            admin.error('以字母开头，长度在5-15位之间，只能包含字符、数字和下划线。 ','#passli');
             return false;
         }
         // else if (verify.length === 0)

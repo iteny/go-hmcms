@@ -3,6 +3,7 @@ package common
 import (
 	"fmt"
 	"os"
+	"time"
 
 	logging "github.com/iteny/hmgo/go-logging"
 )
@@ -43,4 +44,23 @@ func init() {
 
 	logging.SetBackend(backend1Leveled, backend2Formatter)
 
+}
+func Loger(level string, args ...interface{}) {
+	switch level {
+	case "debug":
+		Log.Debug(args)
+	case "info":
+		Log.Info(args)
+	case "notice":
+		Log.Notice(args)
+	case "warning":
+		Log.Warning(args)
+	case "error":
+		Log.Error(args)
+	default:
+		Log.Info("first paramter error!")
+	}
+}
+func LogerInsertText(path string, err error) {
+	Log.Critical("time:"+time.Now().Format("2006-01-02 15:04:05"), "path:"+path, "info:"+err.Error())
 }
