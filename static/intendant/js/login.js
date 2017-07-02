@@ -11,6 +11,7 @@
 //     document.getElementById('code_img').src=verifycode+'?time='+Math.random();void(0);
 // }
 $(function(){
+    var redirect = "/admin/index";
     $('.close').on('click', function(c){
 		$('#username').val("");
         $('#password').val("");

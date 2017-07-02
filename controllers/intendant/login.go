@@ -53,10 +53,15 @@ func LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
 				ipinfo := common.TaobaoIP(ip)
 				sqls := "INSERT INTO hm_login_log(username,login_time,login_ip,status,info,area,country,useragent,uid) VALUES(?,?,?,?,?,?,?,?,?)"
 				sql.Insert(sqls, row["username"], time.Now().Unix(), ip, 1, "登录成功", ipinfo.Data.Area, ipinfo.Data.Country, r.UserAgent(), row["id"])
+				session, _ := common.Sess.Get(r, "hmcms")
+				session.Values["uid"] = row["id"]
+				session.Values["username"] = row["username"]
+				session.Values["status"] = row["status"]
+				session.Save(r, w)
 				// fmt.Println(row["id"], sd)
 				// timestamp := time.Now().Unix()
 				// fmt.Println(timestamp, time.Now())
-				fmt.Println(common.Sha1PlusMd5("admin"))
+				// fmt.Println(common.Sha1PlusMd5("admin"))
 				fmt.Fprint(w, common.ResponseJson(1, "登录成功，3秒后为你跳转！"))
 			} else {
 				fmt.Fprint(w, common.ResponseJson(4, "用户名或密码错误！"))
