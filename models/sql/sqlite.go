@@ -36,18 +36,21 @@ func Exec(sqlstr string, args ...interface{}) (int64, error) {
 func SelectOne(sqlstr string, args ...interface{}) (map[string]string, error) {
 	stmtOut, err := sqlitedb.Prepare(sqlstr)
 	if err != nil {
-		panic(err.Error())
+		// panic(err.Error())
+		return map[string]string{}, err
 	}
 	defer stmtOut.Close()
 
 	rows, err := stmtOut.Query(args...)
 	if err != nil {
-		panic(err.Error())
+		// panic(err.Error())
+		return map[string]string{}, err
 	}
-
+	defer rows.Close()
 	columns, err := rows.Columns()
 	if err != nil {
-		panic(err.Error())
+		// panic(err.Error())
+		return map[string]string{}, err
 	}
 
 	values := make([]sql.RawBytes, len(columns))
@@ -60,7 +63,8 @@ func SelectOne(sqlstr string, args ...interface{}) (map[string]string, error) {
 	for rows.Next() {
 		err = rows.Scan(scanArgs...)
 		if err != nil {
-			panic(err.Error())
+			// panic(err.Error())
+			return map[string]string{}, err
 		}
 		var value string
 

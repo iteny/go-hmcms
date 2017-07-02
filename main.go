@@ -21,7 +21,7 @@ var staticHandler http.Handler
 // 初始化参数
 func init() {
 	dir = path.Dir(os.Args[0])
-	flag.IntVar(&port, "port", 80, "服务器端口")
+	flag.IntVar(&port, "port", 8080, "服务器端口")
 	flag.Parse()
 	staticHandler = http.FileServer(http.Dir(dir))
 }

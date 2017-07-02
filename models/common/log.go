@@ -61,6 +61,6 @@ func Loger(level string, args ...interface{}) {
 		Log.Info("first paramter error!")
 	}
 }
-func LogerInsertText(path string, err error) {
-	Log.Critical("time:"+time.Now().Format("2006-01-02 15:04:05"), "path:"+path, "info:"+err.Error())
+func LogerInsertText(path string, err string) {
+	Log.Critical("time:"+time.Now().Format("2006-01-02 15:04:05"), "path:"+path, "info:", err)
 }

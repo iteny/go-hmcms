@@ -5,7 +5,9 @@ import (
 	"go-hmcms/models/common"
 	"go-hmcms/models/sql"
 	"html/template"
+	"net"
 	"net/http"
+	"time"
 
 	"github.com/iteny/hmgo/govalidator"
 	"github.com/iteny/hmgo/router"
@@ -30,29 +32,34 @@ func LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
 	ispass := govalidator.IsByteLength(password, 5, 15)
 	switch false {
 	case isuser:
-		fmt.Fprint(w, common.ResponseJson("status", 4, "info", "用户名的长度为5位到15位！"))
+		fmt.Fprint(w, common.ResponseJson(4, "用户名的长度为5位到15位！"))
 		return
 	case ispass:
-		fmt.Fprint(w, common.ResponseJson("status", 4, "info", "密码的长度为5位到15位！"))
+		fmt.Fprint(w, common.ResponseJson(4, "密码的长度为5位到15位！"))
 		return
 	default:
 		// common.Log.Critical("1111")
 		sqls := "SELECT id,username,status FROM hm_user WHERE username = ? AND password = ?"
 		row, err := sql.SelectOne(sqls, username, common.Sha1PlusMd5(password))
-		if err == nil {
-			common.LogerInsertText("./controllers/intendant/login.go:43line", err)
+		if err != nil {
+			common.LogerInsertText("./controllers/intendant/login.go:43line", err.Error())
 			return
 		} else {
 			if row["id"] != "" {
-				fmt.Println(row["id"])
+				ip, _, _ := net.SplitHostPort(r.RemoteAddr)
+				if ip == "::1" {
+					ip = "127.0.0.1"
+				}
+				ipinfo := common.TaobaoIP(ip)
+				sqls := "INSERT INTO hm_login_log(username,login_time,login_ip,status,info,area,country,useragent,uid) VALUES(?,?,?,?,?,?,?,?,?)"
+				sql.Insert(sqls, row["username"], time.Now().Unix(), ip, 1, "登录成功", ipinfo.Data.Area, ipinfo.Data.Country, r.UserAgent(), row["id"])
+				// fmt.Println(row["id"], sd)
 				// timestamp := time.Now().Unix()
 				// fmt.Println(timestamp, time.Now())
-				var err error
-				common.LogerInsertText("./controllers/intendant/login.go:43line", err)
 				fmt.Println(common.Sha1PlusMd5("admin"))
-				fmt.Fprint(w, common.ResponseJson("status", 1, "info", "登录成功，3秒后为你跳转！"))
+				fmt.Fprint(w, common.ResponseJson(1, "登录成功，3秒后为你跳转！"))
 			} else {
-				fmt.Fprint(w, common.ResponseJson("status", 4, "info", "用户名或密码错误！"))
+				fmt.Fprint(w, common.ResponseJson(4, "用户名或密码错误！"))
 			}
 		}
 

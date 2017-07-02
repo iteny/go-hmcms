@@ -1,2 +1,2 @@
-time:2017-07-01 22:02:17 path:./controllers/intendant/login.go:43line info:
-time:2017-07-01 22:02:49 path:./controllers/intendant/login.go:43line info:
+time:2017-07-02 17:02:37 path:./controllers/intendant/login.go:43line info: near "1": syntax error
+9 path:./controllers/intendant/login.go:43line info:

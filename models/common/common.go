@@ -8,10 +8,10 @@ import (
 )
 
 //响应json
-func ResponseJson(status string, statusval interface{}, info string, infoval interface{}) string {
+func ResponseJson(status interface{}, info interface{}) string {
 	m := make(map[string]interface{})
-	m[status] = statusval
-	m[info] = infoval
+	m["status"] = status
+	m["info"] = info
 	mData, err := json.Marshal(m)
 	if err != nil {
 		Log.Warning(err.Error())
