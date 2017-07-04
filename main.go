@@ -28,8 +28,9 @@ func init() {
 
 func main() {
 	router := router.New()
-	router.GET("/admin", intendant.Login)
-	router.POST("/admin/login", intendant.LoginGo)
+	router.GET("/admin", intendant.LoginCtl.Login)
+	router.POST("/admin/login", intendant.LoginCtl.LoginGo)
+	router.GET("/admin/index", intendant.IndexCtl.Index)
 	// router.NotFound = router.GET("/error", intendant.Error)
 	router.GET("/static/*filepath", StaticServer)
 

@@ -13,8 +13,18 @@ import (
 	"github.com/iteny/hmgo/router"
 )
 
+var LoginCtl *LoginController
+
+type LoginController struct {
+	BaseController
+}
+
+func init() {
+	LoginCtl = &LoginController{}
+}
+
 //login page
-func Login(w http.ResponseWriter, r *http.Request, ps router.Params) {
+func (c *LoginController) Login(w http.ResponseWriter, r *http.Request, ps router.Params) {
 	// tNow := time.Now()
 	// cookie := http.Cookie{Name: "username", Value: "BCL", Expires: tNow.AddDate(1, 0, 0)}
 	// http.SetCookie(w, &cookie)
@@ -26,7 +36,7 @@ func Login(w http.ResponseWriter, r *http.Request, ps router.Params) {
 }
 
 //login handlered
-func LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
+func (c *LoginController) LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
 	username, password := r.PostFormValue("username"), r.PostFormValue("password")
 	isuser := govalidator.IsByteLength(username, 5, 15)
 	ispass := govalidator.IsByteLength(password, 5, 15)
@@ -58,11 +68,8 @@ func LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
 				session.Values["username"] = row["username"]
 				session.Values["status"] = row["status"]
 				session.Save(r, w)
-				// fmt.Println(row["id"], sd)
-				// timestamp := time.Now().Unix()
-				// fmt.Println(timestamp, time.Now())
-				// fmt.Println(common.Sha1PlusMd5("admin"))
 				fmt.Fprint(w, common.ResponseJson(1, "登录成功，3秒后为你跳转！"))
+				return
 			} else {
 				fmt.Fprint(w, common.ResponseJson(4, "用户名或密码错误！"))
 			}
