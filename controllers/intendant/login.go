@@ -1,6 +1,7 @@
 package intendant
 
 import (
+	"bytes"
 	"fmt"
 	"go-hmcms/models/common"
 	"go-hmcms/models/sql"
@@ -9,6 +10,7 @@ import (
 	"net/http"
 	"time"
 
+	cache "github.com/iteny/hmgo/go-cache"
 	"github.com/iteny/hmgo/govalidator"
 	"github.com/iteny/hmgo/router"
 )
@@ -37,7 +39,23 @@ func (c *LoginController) Login(w http.ResponseWriter, r *http.Request, ps route
 
 //login handlered
 func (c *LoginController) LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
+
 	username, password := r.PostFormValue("username"), r.PostFormValue("password")
+	b := bytes.Buffer{}
+	b.WriteString("errored")
+	b.WriteString(username)
+	s := b.String()
+	fmt.Println("get:", s)
+	fod, foundd := common.Cache.Get(s)
+	if foundd {
+		fmt.Println(fod)
+		if fod.(int) > 2 {
+			fmt.Fprint(w, common.ResponseJson(4, "密码错误3次，需要等待1分钟后再登录，谢谢！"))
+			return
+		}
+	} else {
+		fmt.Println("不存在")
+	}
 	isuser := govalidator.IsByteLength(username, 5, 15)
 	ispass := govalidator.IsByteLength(password, 5, 15)
 	switch false {
@@ -68,9 +86,20 @@ func (c *LoginController) LoginGo(w http.ResponseWriter, r *http.Request, ps rou
 				session.Values["username"] = row["username"]
 				session.Values["status"] = row["status"]
 				session.Save(r, w)
+
 				fmt.Fprint(w, common.ResponseJson(1, "登录成功，3秒后为你跳转！"))
 				return
 			} else {
+				errored := 1
+				b := bytes.Buffer{}
+				b.WriteString("errored")
+				b.WriteString(username)
+				s := b.String()
+				fo, found := common.Cache.Get(s)
+				if found {
+					errored = fo.(int) + errored
+				}
+				common.Cache.Set(s, errored, cache.DefaultExpiration)
 				fmt.Fprint(w, common.ResponseJson(4, "用户名或密码错误！"))
 			}
 		}
