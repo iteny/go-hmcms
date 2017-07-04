@@ -1,15 +1,7 @@
 /**
  * Created by iteny on 2016/3/3.
  */
-// function asdf(e){
-//     if (event.keyCode==13){
-//         document.getElementById("loginsubmit").click();
-//     }
-// }
-// //刷新验证码
-// function refreshs(){
-//     document.getElementById('code_img').src=verifycode+'?time='+Math.random();void(0);
-// }
+
 $(function(){
     var redirect = "/admin/index";
     $('.close').on('click', function(c){
@@ -24,9 +16,8 @@ $(function(){
         $(this).parents('.inputs').removeClass('focus');
     });
     var formLogin = $('#form-login');
-    formLogin.submit(function(e){
-        // e.preventDefault();
-        // alert("sdfasd");
+    formLogin.on('click',function(e){
+        e.preventDefault();
         var username = $.trim($('#username').val()),
             password = $.trim($('#password').val()),
             userreg = /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/;
@@ -56,9 +47,8 @@ $(function(){
         // }
         else
         {
-            e.preventDefault();
             if(formLogin.attr('disabledSubmit')){
-                admin.error('请勿重复登录','#loginsubmit');
+                admin.error('请勿重复登录111','#loginsubmit');
                 return false;
             }
             formLogin.attr('disabledSubmit',true);
@@ -78,7 +68,7 @@ $(function(){
                     }else{
                         layer.close(myload);
                         admin.error(msg.info,'#loginsubmit');
-                        formLogin.attr('disabledSubmit','');
+                        formLogin.attr('disabledSubmit',"");
                         // refreshs();
                         // $('.yanzheng_img').eq(0).click();
                         // $('#verify').val('')
@@ -86,6 +76,7 @@ $(function(){
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown){
                     admin.error('网络连接异常！','#loginsubmit');
+                    formLogin.attr('disabledSubmit',"");
                     return false;
                 }
             });
