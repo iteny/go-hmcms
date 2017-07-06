@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"time"
 
-	cache "github.com/iteny/hmgo/go-cache"
 	"github.com/iteny/hmgo/govalidator"
 	"github.com/iteny/hmgo/router"
 )
@@ -39,22 +38,19 @@ func (c *LoginController) Login(w http.ResponseWriter, r *http.Request, ps route
 
 //login handlered
 func (c *LoginController) LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
-
 	username, password := r.PostFormValue("username"), r.PostFormValue("password")
 	b := bytes.Buffer{}
 	b.WriteString("errored")
 	b.WriteString(username)
 	s := b.String()
-	fmt.Println("get:", s)
-	fod, foundd := common.Cache.Get(s)
+	fod, foundd := common.CacheGet(s)
 	if foundd {
-		fmt.Println(fod)
 		if fod.(int) > 2 {
 			fmt.Fprint(w, common.ResponseJson(4, "密码错误3次，需要等待1分钟后再登录，谢谢！"))
 			return
 		}
 	} else {
-		fmt.Println("不存在")
+		common.Log.Notice("login error number not found!")
 	}
 	isuser := govalidator.IsByteLength(username, 5, 15)
 	ispass := govalidator.IsByteLength(password, 5, 15)
@@ -69,6 +65,8 @@ func (c *LoginController) LoginGo(w http.ResponseWriter, r *http.Request, ps rou
 		// common.Log.Critical("1111")
 		sqls := "SELECT id,username,status FROM hm_user WHERE username = ? AND password = ?"
 		row, err := sql.SelectOne(sqls, username, common.Sha1PlusMd5(password))
+		// row := *rows
+		// fmt.Println(row)
 		if err != nil {
 			common.LogerInsertText("./controllers/intendant/login.go:43line", err.Error())
 			return
@@ -95,11 +93,11 @@ func (c *LoginController) LoginGo(w http.ResponseWriter, r *http.Request, ps rou
 				b.WriteString("errored")
 				b.WriteString(username)
 				s := b.String()
-				fo, found := common.Cache.Get(s)
+				fo, found := common.CacheGet(s)
 				if found {
 					errored = fo.(int) + errored
 				}
-				common.Cache.Set(s, errored, cache.DefaultExpiration)
+				common.CacheSetConfineTime(s, errored)
 				fmt.Fprint(w, common.ResponseJson(4, "用户名或密码错误！"))
 			}
 		}

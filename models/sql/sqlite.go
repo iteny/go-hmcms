@@ -82,7 +82,7 @@ func SelectOne(sqlstr string, args ...interface{}) (map[string]string, error) {
 }
 
 //取多行，注意这类取出来的结果都是string
-func SelectAll(sqlstr string, args ...interface{}) (*[]map[string]string, error) {
+func SelectAll(sqlstr string, args ...interface{}) ([]map[string]string, error) {
 	stmtOut, err := sqlitedb.Prepare(sqlstr)
 	if err != nil {
 		panic(err.Error())
@@ -124,5 +124,5 @@ func SelectAll(sqlstr string, args ...interface{}) (*[]map[string]string, error)
 		}
 		ret = append(ret, vmap)
 	}
-	return &ret, nil
+	return ret, nil
 }

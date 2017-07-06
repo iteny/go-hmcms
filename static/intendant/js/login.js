@@ -48,7 +48,7 @@ $(function(){
         else
         {
             if(formLogin.attr('disabledSubmit')){
-                admin.error('请勿重复登录111','#loginsubmit');
+                admin.error('请勿重复登录','#loginsubmit');
                 return false;
             }
             formLogin.attr('disabledSubmit',true);

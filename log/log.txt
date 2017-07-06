@@ -1,2 +1,21 @@
-time:2017-07-02 17:02:37 path:./controllers/intendant/login.go:43line info: near "1": syntax error
-9 path:./controllers/intendant/login.go:43line info:
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:34line info:menu not found

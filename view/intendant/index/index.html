@@ -1,12 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height:100%;">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+	<meta charset="UTF-8">
+	<title>后台首页</title>
+	<link rel="stylesheet" href="/static/intendant/css/admin.css">
 </head>
-<body>
-    sdfsad
+<body style="height:100%;">
+<div id="app">
+	<!-- 头部 -->
+	<div id="hmHead">
+		<div class="logo">
+            <a href="/admin/index" title="管理中心" class="logo"><img src="/static/intendant/img/hmcms.png" style="width:600px; height:32px;display:inline-block;"></a>
+        </div>
+		<div id="nav_left">
+			<ul id="access" class="children-tooltip">
+				{{range $k,$v:=.menu}}
+				<li><a class="top-nav" data-id="{{$v.id}}" href="javascript:void(0);" title="{{.Name}}">{{$v.name}}</a></li>
+				{{end}}
+
+				<!-- <li><a class="top-nav" data-id="{$topnav.id}" href="javascript:void(0);" title="{$topnav.title}">按钮</a></li>
+				<li><a class="top-nav" data-id="{$topnav.id}" href="javascript:void(0);" title="{$topnav.title}">按钮</a></li> -->
+			</ul>
+		</div>
+		<div id="nav_right" onmouseover="this.className='item hover'" onmouseout="this.className='item'">
+            <div class="image">
+            <img width="18" height="18" src="/static/intendant/img/admin.jpg" />
+            </div>
+            <div class="uu">{{.username}}</div>
+            <div class="cc">
+                <ul>
+                    <li><a href="" target="rightFrame">个人资料</a></li>
+                    <li><a href="/Intendant/Index/userPass">修改密码</a></li>
+                    <li><a href="/Intendant/Index/loginOut">退出</a></li>
+                </ul>
+            </div>
+        </div>
+	</div>
+	<div id="hmLeft" style="overflow-x:auto;overflow-y:auto;">
+		<div id="menu">
+            <div class="click active"><i class="iconfont" style="color:#34c84a;font-size: 18px;">&#xe606;</i></div>
+            <div id="left-menu">
+                <div data-collapse>
+                    <h2 style="position: relative;" class="open west active" title="Listen!"><i class="tou iconfont" style="font-size: 18px;">&#xe604</i><em>管理首页</em><i class="htwo iconfont" style="font-size: 12px;position: relative;right: -55px;">&#xe605;</i></h2>
+                    <ul>
+                        <li><a class="west" href="/admin/asdf/index" target="rightFrame" title="系统设置" data-name="系统设置"><i class="iconfont" style="color:white;font-size: 16px;">&#xe600;</i><em>系统设置</em></a></li>
+						<li><a class="west" href="/admin/asdf/index" target="rightFrame" title="系统设置" data-name="系统设置"><i class="iconfont" style="color:white;font-size: 16px;">&#xe600;</i><em>系统设置</em></a></li>
+                    </ul>
+                </div>
+				<div data-collapse>
+                    <h2 style="position: relative;" class="open west active" title="Listen!"><i class="tou iconfont" style="color:white;font-size: 18px;">&#xe604</i><em>管理首页</em><i class="iconfont" style="color:#FC635D;font-size: 12px;position: relative;right: -55px;">&#xe605;</i></h2>
+                    <ul>
+                        <li><a class="west" href="/admin/asdf/index" target="rightFrame" title="系统设置" data-name="系统设置"><i class="iconfont" style="color:white;font-size: 16px;">&#xe600;</i><em>系统设置</em></a></li>
+						<li><a class="west" href="/admin/asdf/index" target="rightFrame" title="系统设置" data-name="系统设置"><i class="iconfont" style="color:white;font-size: 16px;">&#xe600;</i><em>系统设置</em></a></li>
+                    </ul>
+                </div>
+				<div data-collapse>
+                    <h2 style="position: relative;" class="open west active" title="Listen!"><i class="tou iconfont" style="color:white;font-size: 18px;">&#xe604</i><em>管理首页</em><i class="iconfont" style="color:#FC635D;font-size: 12px;position: relative;right: -55px;">&#xe605;</i></h2>
+                    <ul>
+                        <li><a class="west" href="/admin/asdf/index" target="rightFrame" title="系统设置" data-name="系统设置"><i class="iconfont" style="color:white;font-size: 16px;">&#xe600;</i><em>系统设置</em></a></li>
+						<li><a class="west" href="/admin/asdf/index" target="rightFrame" title="系统设置" data-name="系统设置"><i class="iconfont" style="color:white;font-size: 16px;">&#xe600;</i><em>系统设置</em></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+	</div>
+	<div id="hmRight" style="z-index:999999;">
+        <div class="options_refresh">
+            <a href="" id="J_refresh" class="bsn refresh" title="刷新"><i class="iconfont" style="color:white;font-size: 13px;">&#xe608;</i></a>
+		</div>
+		<div class="options">
+            <a href="" id="J_fullScreen" class="bsn full_screen active" title="最大化/最小化"><i class="iconfont" style="color:white;font-size: 13px;">&#xe609;</i></a>
+        </div>
+        <iframe name="rightFrame" id="iframe_default" src="/admin/index/home" style="height: 100%; width: 100%;display:block;" data-id="default" frameborder="0" scrolling="auto"></iframe>
+    </div>
+</div>
 </body>
+<script src="/static/common/js/jquery-1.12.3.min.js"></script>
+<script type="text/javascript">
+var hg = window.innerHeight  - 40;
+$('#hmLeft').height(hg);
+$('#left-menu').on("click",'h2.open',function(event){
+	if($(this).hasClass("active")){
+		$(this).removeClass("active");
+		$(this).find('i.tou').html('&#xe603;');
+		$(this).next('ul').hide();
+		// $(this).next('ul').animate({opacity:0},'slow');
+	}else{
+		$(this).addClass("active");
+		$(this).find('i.tou').html('&#xe604;');
+		$(this).next('ul').show();
+		// $(this).next('ul').animate({opacity:1},'slow');
+	}
+});
+$('#hmLeft').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;overflow-x:auto;overflow-y:auto;');
+$('#hmRight').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;overflow-x:auto;overflow-y:auto;');
+if($('h2').attr('aria-expanded') == 'true'){
+	$('i.tou').html('&#xe604;');
+}
+if($('h2').attr('aria-expanded') == 'false'){
+	$('i.tou').html('&#xe603;');
+}
+$('#hmLeft div.click').click(function(){
+	if($(this).hasClass("active")){
+		$(this).removeClass("active");
+		$('#hmLeft').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;display:none;overflow-x:auto;overflow-y:auto;')
+		$('#hmLeft').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;display:block;width:50px;overflow-x:auto;overflow-y:auto;')
+		$('#hmRight').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;margin-left: 51px');
+		$('#menu li').attr('style','text-indent: 18px;margin:0;')
+	}else{
+		$(this).addClass("active");
+		$('#hmLeft').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;display:none;overflow-x:auto;overflow-y:auto;')
+		$('#hmLeft').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;display:block;width:180px;overflow-x:auto;overflow-y:auto;')
+		$('#hmRight').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;margin-left: 181px');
+		$('#menu li').attr('style','text-indent: 25px;margin:0 10px;')
+	}
+});
+$('#left-menu').on("mouseover mouseout",'a.west',function(event){
+	if(event.type == "mouseover"){
+		if($('div.click').attr('class') == 'click')
+		{
+			$(['<div class="iteny" style="position: absolute;left: 48px;top:'+$(this).offset().top+'px">',
+				'<div class="jiantou"></div>',
+				'<div class="content">'+$(this).attr("data-name")+'</div>','</div>'].join('')).appendTo(document.body);
+		}
+	}else if(event.type == "mouseout"){
+		$('.iteny').remove();
+	}
+});
+$('#left-menu').on("mouseover mouseout",'h2.west',function(event){
+	if(event.type == "mouseover"){
+		if($('div.click').attr('class') == 'click')
+		{
+			$(['<div class="iteny" style="position: absolute;left: 48px;top:'+$(this).offset().top+'px">',
+				'<div class="jiantou"></div>',
+				'<div class="content">'+$(this).attr("data-name")+'</div>','</div>'].join('')).appendTo(document.body);
+		}
+	}else if(event.type == "mouseout"){
+		$('.iteny').remove();
+	}
+});
+//刷新
+$('#J_refresh').click(function (e) {
+	e.preventDefault();
+	e.stopPropagation();
+	document.getElementById('iframe_default').contentWindow.location.reload(true);
+});
+//最大化/最小化
+$('#J_fullScreen').click(function (e) {
+	e.preventDefault();
+	e.stopPropagation();
+	if($(this).hasClass("active")){
+		$(this).removeClass("active");
+		$("#hmRight").attr('style','height:100%;width:100%;position: fixed;top:0;left:0;margin-left:0;');
+		$('.options_refresh').attr('style','top:5px;');
+		$('.options').attr('style','top:5px;');
+	}else{
+		var hmhei = $('#hmLeft').width()+1;
+		$(this).addClass("active");
+		$("#hmRight").attr('style','margin-left:'+hmhei+'px;height:'+($(window).height()-$('#hmHead').height())+'px;');
+		$('.options_refresh').attr('style','top:38px;');
+		$('.options').attr('style','top:38px;');
+	}
+});
+var getLeftMenu = '/admin/getLeftMenu';
+//获取左侧菜单
+$(".top-nav").click(function(e) {
+	if($(this).parent('li').attr("class") == "action"){
+		return false;
+	}
+	$('#access li').removeClass('action');
+	$(this).parent('li').addClass('action');
+	$.ajax({
+		type: 'POST',
+		url: getLeftMenu,
+		data: 'pid='+$(this).attr("data-id"),
+		dataType: 'json',
+		beforeSend: function(){
+			$('#left-menu').html('<h2 style="position: relative;" class="open west" title="菜单加载中...!"><i class="tou iconfont" style="color:red;font-size: 16px;">&#xe60b;</i><em style="color:red;">菜单加载中...!</em></h2>');
+		},
+		success: function(data){
+			// alert(data);
+			if(data == null){
+				$('#left-menu').html('<h2 style="position: relative;" class="open west active" title="菜单加载中...!"><i class="tou iconfont" style="color:red;font-size: 16px;">&#xe60b;</i><em style="color:red;">此分类无菜单...!</em></h2>');
+				return false;
+			}
+			$('#left-menu').html('');
+			var str = '';
+			var count = data.length;
+			for(var i=0; i<count; i++)
+			{
+				str += '<div data-collapse>';
+				str += '<h2 style="position: relative;" class="open west active" data-name="'+data[i]['name']+'"><i class="tou iconfont" style="font-size: 18px;">&#xe604;</i><em>'+data[i]['name']+'</em><i class="htwo iconfont" style="font-size: 12px;position: relative;right: -55px;">&#xe605;</i></h2>';
+				str += '<ul>';
+				var icount = data[i]['children'].length;
+				for(var s=0; s<icount; s++)
+				{
+					if(data[i]['children'][s]['icon'] == 0){
+						var icon = "&#xe60a";
+					}
+					var thdizhi = '/admin/'+data[i]['children'][s]['url'];
+					str += '<li><a class="west" href="'+thdizhi+'" target="rightFrame" data-name="'+data[i]['children'][s]['name']+'"><i class="iconfont" style="color:white;font-size: 14px;">'+icon+'</i><em>'+data[i]['children'][s]['name']+'</em></a></li>';
+				}
+				str += '</ul>';
+				str += '</div>';
+			}
+			$('#left-menu').html(str);
+		},
+		error: function(){
+			$('#left-menu').html('<h2 style="position: relative;" class="open west" title="菜单加载失败...!"><i class="tou iconfont" style="color:red;font-size: 16px;">&#xe60b;</i><em style="color:red;">菜单加载失败...!</em></h2>');
+		}
+	});
+});
+$('.top-nav').eq(0).click();
+$('#left-menu').on("click",'li',function(event){
+	$('#left-menu li').removeClass('action');
+	$(this).addClass('action');
+});
+</script>
 </html>
