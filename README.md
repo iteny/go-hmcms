@@ -13,4 +13,8 @@ go get -u github.com/asaskevich/govalidator
 go get -u github.com/op/go-logging
 //data cache
 go get -u github.com/patrickmn/go-cache
+//sessions
+go get -u github.com/gorilla/sessions
+//database orm
+go get -u github.com/jinzhu/gorm
 ```
