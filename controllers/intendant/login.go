@@ -10,8 +10,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/iteny/hmgo/govalidator"
-	"github.com/iteny/hmgo/router"
+	"github.com/asaskevich/govalidator"
+	router "github.com/julienschmidt/httprouter"
 )
 
 var LoginCtl *LoginController

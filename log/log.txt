@@ -1,4 +1,4 @@
-path:./controllers/intendant/index.go:34line info:menu not found
+path:./controllers/intendant/index.go:84line info:menu not found
 path:./controllers/intendant/index.go:34line info:menu not found
 path:./controllers/intendant/index.go:34line info:menu not found
 path:./controllers/intendant/index.go:34line info:menu not found

@@ -82,7 +82,7 @@ func SelectOne(sqlstr string, args ...interface{}) (map[string]string, error) {
 }
 
 //取多行，注意这类取出来的结果都是string
-func SelectAll(sqlstr string, args ...interface{}) ([]map[string]string, error) {
+func SelectAll(sqlstr string, args ...interface{}) ([]map[string]interface{}, error) {
 	stmtOut, err := sqlitedb.Prepare(sqlstr)
 	if err != nil {
 		panic(err.Error())
@@ -102,7 +102,7 @@ func SelectAll(sqlstr string, args ...interface{}) ([]map[string]string, error) 
 	values := make([]sql.RawBytes, len(columns))
 	scanArgs := make([]interface{}, len(values))
 
-	ret := make([]map[string]string, 0)
+	ret := make([]map[string]interface{}, 0)
 	for i := range values {
 		scanArgs[i] = &values[i]
 	}
@@ -113,7 +113,7 @@ func SelectAll(sqlstr string, args ...interface{}) ([]map[string]string, error) 
 			panic(err.Error())
 		}
 		var value string
-		vmap := make(map[string]string, len(scanArgs))
+		vmap := make(map[string]interface{}, len(scanArgs))
 		for i, col := range values {
 			if col == nil {
 				value = "NULL"

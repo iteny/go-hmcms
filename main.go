@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/iteny/hmgo/router"
+	router "github.com/julienschmidt/httprouter"
 )
 
 var dir string
@@ -32,6 +32,7 @@ func main() {
 	router.POST("/admin/login", intendant.LoginCtl.LoginGo)
 	router.GET("/admin/index", intendant.IndexCtl.Index)
 	router.GET("/admin/index/home", intendant.IndexCtl.Home)
+	router.POST("/admin/index/getLeftMenu", intendant.IndexCtl.GetLeftMenu)
 	// router.NotFound = router.GET("/error", intendant.Error)
 	router.GET("/static/*filepath", StaticServer)
 

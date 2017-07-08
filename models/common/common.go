@@ -19,6 +19,17 @@ func ResponseJson(status interface{}, info interface{}) string {
 	}
 	return string(mData)
 }
+
+//return rows json
+func RowsJson(rows interface{}) string {
+
+	mData, err := json.Marshal(rows)
+	if err != nil {
+		Log.Warning(err.Error())
+		return ""
+	}
+	return string(mData)
+}
 func Md5(s string) string {
 	hash := md5.New()
 	buf := []byte(s)

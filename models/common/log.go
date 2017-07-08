@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	logging "github.com/iteny/hmgo/go-logging"
+	logging "github.com/op/go-logging"
 )
 
 var Log = logging.MustGetLogger("example")

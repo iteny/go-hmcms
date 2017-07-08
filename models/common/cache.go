@@ -3,7 +3,7 @@ package common
 import (
 	"time"
 
-	"github.com/iteny/hmgo/go-cache"
+	cache "github.com/patrickmn/go-cache"
 )
 
 var Cache *cache.Cache

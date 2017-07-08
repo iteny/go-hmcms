@@ -1,8 +1,9 @@
 package ini
 
 import (
-	"github.com/iteny/hmgo/ini"
 	"go-hmcms/models/common"
+
+	"github.com/go-ini/ini"
 )
 
 var cfg *ini.File

@@ -15,7 +15,7 @@
 		<div id="nav_left">
 			<ul id="access" class="children-tooltip">
 				{{range $k,$v:=.menu}}
-				<li><a class="top-nav" data-id="{{$v.id}}" href="javascript:void(0);" title="{{.Name}}">{{$v.name}}</a></li>
+				<li><a class="top-nav" data-id="{{$v.id}}" href="javascript:void(0);" title="{$v.name}}">{{$v.name}}</a></li>
 				{{end}}
 
 				<!-- <li><a class="top-nav" data-id="{$topnav.id}" href="javascript:void(0);" title="{$topnav.title}">按钮</a></li>
@@ -162,7 +162,7 @@ $('#J_fullScreen').click(function (e) {
 		$('.options').attr('style','top:38px;');
 	}
 });
-var getLeftMenu = '/admin/getLeftMenu';
+var getLeftMenu = '/admin/index/getLeftMenu';
 //获取左侧菜单
 $(".top-nav").click(function(e) {
 	if($(this).parent('li').attr("class") == "action"){
