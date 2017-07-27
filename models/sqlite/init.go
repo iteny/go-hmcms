@@ -1,6 +1,7 @@
 package sqlite
 
 import (
+	"database/sql"
 	"log"
 	"time"
 
@@ -8,6 +9,13 @@ import (
 	"github.com/go-xorm/xorm"
 	_ "github.com/mattn/go-sqlite3"
 )
+
+type ArCoherent struct {
+	ArWhere     string
+	ArWhereArgs interface{}
+	ArAsc       string
+	ArCols      string
+}
 
 // ORM 引擎
 var x *xorm.Engine
@@ -23,8 +31,16 @@ func init() {
 	x.SetTableMapper(tbMapper)
 	location, _ := time.LoadLocation("Asia/Shanghai")
 	x.TZLocation = location
+	// x.ShowSQL(true)
+	// x.Logger().SetLevel(core.LOG_DEBUG)
 	// 同步结构体与数据表
 	// if err = x.Sync(new(User), new(LoginLog), new(AuthRule)); err != nil {
 	// 	log.Fatalf("Fail to sync database: %v\n", err)
 	// }
+}
+
+//执行sql语句
+func Execute(sql string) (sql.Result, error) {
+	res, err := x.Exec(sql)
+	return res, err
 }

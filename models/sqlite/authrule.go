@@ -1,10 +1,12 @@
 package sqlite
 
+import "github.com/go-xorm/xorm"
+
 //登录日志数据操作
 var AuthRuleDb *AuthRule
 
 func init() {
-	AuthRuleDb = NewAuthRule()
+	AuthRuleDb = &AuthRule{}
 }
 
 type AuthRule struct {
@@ -19,8 +21,21 @@ type AuthRule struct {
 	Children []AuthRule `json:"children"`
 }
 
-func NewAuthRule() *AuthRule {
-	return &AuthRule{}
+func (c *AuthRule) Wherer(str interface{}, args ...interface{}) *xorm.Session {
+	xs := x.Where(str, args)
+	return xs
+}
+func (c *AuthRule) Ascr(str string) *xorm.Session {
+	xs := x.Asc(str)
+	return xs
+}
+func (c *AuthRule) Colsr(str string) *xorm.Session {
+	xs := x.Cols(str)
+	return xs
+}
+func (c *AuthRule) Findr() (ar []AuthRule, err error) {
+	err = c.Find(&ar)
+	return ar, err
 }
 
 //获取一级菜单
@@ -30,13 +45,13 @@ func (a *AuthRule) GetOneMenu() (ar []AuthRule, err error) {
 }
 
 //获取二级菜单
-func (a *AuthRule) GetTwoMenu(pid int) (ar []AuthRule, err error) {
+func (c *AuthRule) GetTwoMenu(pid int) (ar []AuthRule, err error) {
 	err = x.Asc("sort").Cols("id,url,name,icon").Where("pid= ? AND isshow= ?", pid, 1).Find(&ar)
 	return ar, err
 }
 
 //获取所有菜单
-func (a *AuthRule) GetAllMenu() (ar []AuthRule, err error) {
+func (c *AuthRule) GetAllMenu() (ar []AuthRule, err error) {
 	err = x.Asc("sort").Find(&ar)
 	return ar, err
 }

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"go-hmcms/models/common"
 	"go-hmcms/models/sql"
-	"go-hmcms/models/sqlite"
 	"html/template"
 	"net"
 	"net/http"
@@ -74,25 +73,33 @@ func (c *IndexController) Home(w http.ResponseWriter, r *http.Request, _ router.
 	tl.Execute(w, data)
 }
 func (c *IndexController) GetLeftMenu(w http.ResponseWriter, r *http.Request, _ router.Params) {
+	// rows, _ := sqlite.AuthRuleDb.Wherer("pid = ?", 0).Findr()
+	// fmt.Println(rows)
 	pid := r.PostFormValue("pid")
-	// data := make(map[string][]map[string]string)
 	intpid, _ := strconv.Atoi(pid)
-	rows, _ := sqlite.AuthRuleDb.GetTwoMenu(intpid)
+	sqls := "SELECT id,name FROM hm_auth_rule WHERE pid = ?"
+	var ss sql.AuthRule
+	rows := ss.Find(sqls, intpid)
 	fmt.Println(rows)
-
-	for k, v := range rows {
-
-		throws, _ := sqlite.AuthRuleDb.GetTwoMenu(v.Id)
-		for tk, _ := range throws {
-			rows[k].Children = append(rows[k].Children, throws[tk])
-		}
-		fmt.Println(rows)
-		// for _, d := range throws {
-		// 	node := sqlite.AuthRule{Id: v.Id, Title: v.Title, Children: sqlite.AuthRule{Id: d.Id, Title: d.Title}}
-		// 	// sqlite.AuthRule.Children = append(sqlite.AuthRule.Children, &node)
-		// }
-		// fmt.Fprint(w, common.)
-
-	}
-	fmt.Fprint(w, common.RowsJson(rows))
+	// pid := r.PostFormValue("pid")
+	// // data := make(map[string][]map[string]string)
+	// intpid, _ := strconv.Atoi(pid)
+	// rows, _ := sqlite.AuthRuleDb.GetTwoMenu(intpid)
+	// fmt.Println(rows)
+	//
+	// for k, v := range rows {
+	//
+	// 	throws, _ := sqlite.AuthRuleDb.GetTwoMenu(v.Id)
+	// 	for tk, _ := range throws {
+	// 		rows[k].Children = append(rows[k].Children, throws[tk])
+	// 	}
+	// 	fmt.Println(rows)
+	// 	// for _, d := range throws {
+	// 	// 	node := sqlite.AuthRule{Id: v.Id, Title: v.Title, Children: sqlite.AuthRule{Id: d.Id, Title: d.Title}}
+	// 	// 	// sqlite.AuthRule.Children = append(sqlite.AuthRule.Children, &node)
+	// 	// }
+	// 	// fmt.Fprint(w, common.)
+	//
+	// }
+	// fmt.Fprint(w, common.RowsJson(rows))
 }
