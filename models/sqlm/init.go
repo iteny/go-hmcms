@@ -33,18 +33,22 @@ type Place struct {
 	TelCode int
 }
 
-var Tx *sqlm.Tx
+var DB *sqlm.DB
 
 func init() {
-	db, err := sqlm.NewEngine("sqlite3", "./sql/hmcms.db")
+	DB, err := sqlm.NewEngine("sqlite3", "./sql/hmcms.db")
 	if err != nil {
 		common.Log.Error(err)
 	}
 	// db.MustExec(schema)
 
-	Tx = db.MustBegin()
-	Tx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "Jason", "Moiron", "jmoiron@jmoiron.net")
-	Tx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "John", "Doe", "johndoeDNE@gmail.net")
-	Tx.Commit()
+	tx := DB.MustBegin()
+	tx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "Jason", "Moiron", "jmoiron@jmoiron.net")
+	tx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "John", "Doe", "johndoeDNE@gmail.net")
+	tx.Commit()
+	sx := DB.MustBegin()
+	sx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "Jason", "Moiron", "jmoiron@jmoiron.net")
+	sx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "John", "Doe", "johndoeDNE@gmail.net")
+	sx.Commit()
 
 }
