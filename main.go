@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"go-hmcms/controllers/intendant"
+	_ "go-hmcms/models/sqlm"
 	"io"
 	"log"
 	"net/http"

@@ -185,8 +185,10 @@ func (s *AuthRule) SelectAll(sqlstr string, args ...interface{}) ([]map[string]i
 			if col == nil {
 				value = "NULL"
 			} else {
+				fmt.Printf("col:%T", col)
 				value = string(col)
 			}
+			// fmt.Printf("col:", value)
 			vmap[columns[i]] = value
 		}
 		ret = append(ret, vmap)
@@ -226,11 +228,35 @@ func (ar *AuthRule) Find(sqlstr string, args ...interface{}) *AuthRule {
 			// fmt.Println(t.Kind())
 			for i := 0; i < refs.NumField(); i++ {
 				fieldInfo := refs.Type().Field(i)
-				fieldSet := refs.Field(i)
+				// fieldSet := refs.Field(i)
 				// fmt.Println(t.Field(i).Tag.Get("field"))
 				// t.Field(i).Tag
+
 				if ks == fieldInfo.Tag.Get("field") {
-					fieldSet.Set(reflect.ValueOf(vs))
+					switch vs.(type) {
+					case int:
+						fmt.Printf("实际类型int：", vs)
+					case string:
+						fmt.Printf("实际类型string", vs)
+					}
+					// vsint := vs.(string)
+					// can := reflect.ValueOf(vsint)
+					// fieldSet.Set(can)
+					// fmt.Println("int", vs)
+					// switch fieldSet.Kind() {
+					// case reflect.Int:
+					// 	vsint := vs.(int)
+					// 	can := reflect.ValueOf(vsint)
+					// 	fieldSet.Set(can)
+					// 	fmt.Println("int", vs)
+					// case reflect.String:
+					// 	vsting := vs.(string)
+					// 	can := reflect.ValueOf(vsting)
+					// 	fieldSet.Set(can)
+					// 	fmt.Println("string", vs)
+					// default:
+					// 	fmt.Println(111)
+					// }
 
 				}
 			}
