@@ -6,6 +6,7 @@ import (
 	"go-hmcms/models/sql"
 	"go-hmcms/models/sqlm"
 	"html/template"
+	"log"
 	"net"
 	"net/http"
 	"os"
@@ -14,18 +15,6 @@ import (
 
 	router "github.com/julienschmidt/httprouter"
 )
-
-//table hm_auth_rule
-type AuthRule struct {
-	Id     int
-	Url    string
-	Name   string
-	Pid    int
-	Isshow int
-	Sort   int
-	Icon   string
-	Level  int
-}
 
 var IndexCtl *IndexController
 
@@ -94,12 +83,18 @@ func (c *IndexController) GetLeftMenu(w http.ResponseWriter, r *http.Request, _ 
 	// rule := []AuthRule{}
 	// rows, err := sqlm.DB.Queryx(sqls)
 	rule := []sqlm.AuthRule{}
-	sqlm.DB.Select(&rule, sqls, intpid)
+	err := sqlm.DB.Select(&rule, sqls, intpid)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Println(rule)
 
 	for k, v := range rule {
 		srule := []sqlm.AuthRule{}
-		sqlm.DB.Select(&srule, sqls, v.Id)
+		err = sqlm.DB.Select(&srule, sqls, v.Id)
+		if err != nil {
+			log.Fatal(err)
+		}
 		// fmt.Println(srule)
 		for tk, _ := range srule {
 			rule[k].Children = append(rule[k].Children, srule[tk])

@@ -34,6 +34,7 @@ func main() {
 	router.GET("/admin/index", intendant.IndexCtl.Index)
 	router.GET("/admin/index/home", intendant.IndexCtl.Home)
 	router.POST("/admin/index/getLeftMenu", intendant.IndexCtl.GetLeftMenu)
+	router.GET("/admin/site/menu", intendant.SiteCtl.Menu)
 	// router.NotFound = router.GET("/error", intendant.Error)
 	router.GET("/static/*filepath", StaticServer)
 
