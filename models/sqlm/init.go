@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"go-hmcms/models/common"
 
-	"github.com/iteny/hmgo/sqlm"
+	"github.com/jmoiron/sqlx"
 )
 
 // var Db *sqlm.DB
@@ -33,22 +33,23 @@ type Place struct {
 	TelCode int
 }
 
-var DB *sqlm.DB
+var DB *sqlx.DB
 
 func init() {
-	DB, err := sqlm.NewEngine("sqlite3", "./sql/hmcms.db")
+	var err error
+	DB, err = sqlx.Connect("sqlite3", "./sql/hmcms.db")
 	if err != nil {
 		common.Log.Error(err)
 	}
 	// db.MustExec(schema)
 
-	tx := DB.MustBegin()
-	tx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "Jason", "Moiron", "jmoiron@jmoiron.net")
-	tx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "John", "Doe", "johndoeDNE@gmail.net")
-	tx.Commit()
-	sx := DB.MustBegin()
-	sx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "Jason", "Moiron", "jmoiron@jmoiron.net")
-	sx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "John", "Doe", "johndoeDNE@gmail.net")
-	sx.Commit()
+	// tx := DB.MustBegin()
+	// tx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "Jason", "Moiron", "jmoiron@jmoiron.net")
+	// tx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "John", "Doe", "johndoeDNE@gmail.net")
+	// tx.Commit()
+	// sx := DB.MustBegin()
+	// sx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "Jason", "Moiron", "jmoiron@jmoiron.net")
+	// sx.MustExec("INSERT INTO person (first_name, last_name, email) VALUES ($1, $2, $3)", "John", "Doe", "johndoeDNE@gmail.net")
+	// sx.Commit()
 
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-hmcms/models/common"
 	"go-hmcms/models/sql"
+	"go-hmcms/models/sqlm"
 	"html/template"
 	"net"
 	"net/http"
@@ -13,6 +14,18 @@ import (
 
 	router "github.com/julienschmidt/httprouter"
 )
+
+//table hm_auth_rule
+type AuthRule struct {
+	Id     int
+	Url    string
+	Name   string
+	Pid    int
+	Isshow int
+	Sort   int
+	Icon   string
+	Level  int
+}
 
 var IndexCtl *IndexController
 
@@ -77,10 +90,22 @@ func (c *IndexController) GetLeftMenu(w http.ResponseWriter, r *http.Request, _ 
 	// fmt.Println(rows)
 	pid := r.PostFormValue("pid")
 	intpid, _ := strconv.Atoi(pid)
-	sqls := "SELECT id,name FROM hm_auth_rule WHERE pid = ?"
-	var ss sql.AuthRule
-	rows := ss.Find(sqls, intpid)
-	fmt.Println(rows)
+	sqls := "SELECT * FROM hm_auth_rule WHERE pid = ?"
+	// rule := []AuthRule{}
+	// rows, err := sqlm.DB.Queryx(sqls)
+	rule := []sqlm.AuthRule{}
+	sqlm.DB.Select(&rule, sqls, intpid)
+	fmt.Println(rule)
+
+	for k, v := range rule {
+		srule := []sqlm.AuthRule{}
+		sqlm.DB.Select(&srule, sqls, v.Id)
+		// fmt.Println(srule)
+		for tk, _ := range srule {
+			rule[k].Children = append(rule[k].Children, srule[tk])
+		}
+	}
+	fmt.Println(rule)
 	// pid := r.PostFormValue("pid")
 	// // data := make(map[string][]map[string]string)
 	// intpid, _ := strconv.Atoi(pid)
@@ -101,5 +126,5 @@ func (c *IndexController) GetLeftMenu(w http.ResponseWriter, r *http.Request, _ 
 	// 	// fmt.Fprint(w, common.)
 	//
 	// }
-	// fmt.Fprint(w, common.RowsJson(rows))
+	fmt.Fprint(w, common.RowsJson(rule))
 }
