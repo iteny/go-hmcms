@@ -15,7 +15,7 @@
 		<div id="nav_left">
 			<ul id="access" class="children-tooltip">
 				{{range $k,$v:=.menu}}
-				<li><a class="top-nav" data-id="{{$v.id}}" href="javascript:void(0);" title="{$v.name}}">{{$v.name}}</a></li>
+				<li><a class="top-nav" data-id="{{$v.Id}}" href="javascript:void(0);" title="{$v.Name}}">{{$v.Name}}</a></li>
 				{{end}}
 
 				<!-- <li><a class="top-nav" data-id="{$topnav.id}" href="javascript:void(0);" title="{$topnav.title}">按钮</a></li>
@@ -71,7 +71,7 @@
 		<div class="options">
             <a href="" id="J_fullScreen" class="bsn full_screen active" title="最大化/最小化"><i class="iconfont" style="color:white;font-size: 13px;">&#xe609;</i></a>
         </div>
-        <iframe name="rightFrame" id="iframe_default" src="/admin/index/home" style="height: 100%; width: 100%;display:block;" data-id="default" frameborder="0" scrolling="auto"></iframe>
+        <iframe name="rightFrame" id="iframe_default" src="/intendant/index/home" style="height: 100%; width: 100%;display:block;" data-id="default" frameborder="0" scrolling="auto"></iframe>
     </div>
 </div>
 </body>
@@ -162,7 +162,7 @@ $('#J_fullScreen').click(function (e) {
 		$('.options').attr('style','top:38px;');
 	}
 });
-var getLeftMenu = '/admin/index/getLeftMenu';
+var getLeftMenu = '/intendant/index/getLeftMenu';
 //获取左侧菜单
 $(".top-nav").click(function(e) {
 	if($(this).parent('li').attr("class") == "action"){
@@ -198,7 +198,7 @@ $(".top-nav").click(function(e) {
 					if(data[i]['Children'][s]['Icon'] == 0){
 						var icon = "&#xe60a";
 					}
-					var thdizhi = '/admin/'+data[i]['Children'][s]['Url'];
+					var thdizhi = '/intendant/'+data[i]['Children'][s]['Url'];
 					str += '<li><a class="west" href="'+thdizhi+'" target="rightFrame" data-name="'+data[i]['Children'][s]['Name']+'"><i class="iconfont" style="color:white;font-size: 14px;">'+icon+'</i><em>'+data[i]['Children'][s]['Name']+'</em></a></li>';
 				}
 				str += '</ul>';

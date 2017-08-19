@@ -3,7 +3,7 @@
  */
 
 $(function(){
-    var redirect = "/admin/index";
+    var redirect = "/intendant/index";
     $('.close').on('click', function(c){
 		$('#username').val("");
         $('#password').val("");

@@ -2,6 +2,7 @@ package sql
 
 import (
 	"database/sql"
+	"fmt"
 	"go-hmcms/models/common"
 
 	"go-hmcms/models/ini"
@@ -19,6 +20,8 @@ func init() {
 		sqlitedb, err = sql.Open("sqlite3", "./sql/hmcms.db")
 		if err != nil {
 			common.Log.Error(err.Error())
+		} else {
+			fmt.Println("自身sql开启")
 		}
 		// defer sqlitedb.Close()
 	case "mysql":

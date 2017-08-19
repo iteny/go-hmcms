@@ -29,12 +29,15 @@ func init() {
 
 func main() {
 	router := router.New()
-	router.GET("/admin", intendant.LoginCtl.Login)
-	router.POST("/admin/login", intendant.LoginCtl.LoginGo)
-	router.GET("/admin/index", intendant.IndexCtl.Index)
-	router.GET("/admin/index/home", intendant.IndexCtl.Home)
-	router.POST("/admin/index/getLeftMenu", intendant.IndexCtl.GetLeftMenu)
-	router.GET("/admin/site/menu", intendant.SiteCtl.Menu)
+	router.GET("/intendant", intendant.LoginCtl.Login)
+	router.POST("/intendant/login", intendant.LoginCtl.LoginGo)
+	router.GET("/intendant/index", intendant.IndexCtl.Index)
+	router.GET("/intendant/index/home", intendant.IndexCtl.Home)
+	router.POST("/intendant/index/getLeftMenu", intendant.IndexCtl.GetLeftMenu)
+	// menu page
+	router.GET("/intendant/site/menu", intendant.SiteCtl.Menu)
+	// menu sort
+	router.POST("/intendant/site/sortmenu", intendant.SiteCtl.SortMenu)
 	// router.NotFound = router.GET("/error", intendant.Error)
 	router.GET("/static/*filepath", StaticServer)
 

@@ -1,9 +1,15 @@
 package sqlm
 
-var AuthRuleDb *AuthRule
-
-func init() {
-	AuthRuleDb = &AuthRule{}
+type User struct {
+	Id         int
+	Username   string
+	Password   string
+	Nickname   string
+	Email      string
+	CreateTime int
+	CreateIp   string
+	Remake     string
+	Status     int
 }
 
 //table hm_auth_rule

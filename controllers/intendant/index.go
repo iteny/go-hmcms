@@ -3,10 +3,8 @@ package intendant
 import (
 	"fmt"
 	"go-hmcms/models/common"
-	"go-hmcms/models/sql"
 	"go-hmcms/models/sqlm"
 	"html/template"
-	"log"
 	"net"
 	"net/http"
 	"os"
@@ -28,16 +26,17 @@ func init() {
 func (c *IndexController) Index(w http.ResponseWriter, r *http.Request, ps router.Params) {
 	c.VerifyLogin(w, r)
 	data := make(map[string]interface{})
-	sqls := "SELECT id,name FROM hm_auth_rule WHERE pid = 0"
-	rows, err := sql.SelectAll(sqls)
+	sqls := "SELECT id,name FROM hm_auth_rule WHERE pid = 0 ORDER BY sort ASC"
+	ruletop := []sqlm.AuthRule{}
+	err := sqlm.DB.Select(&ruletop, sqls)
 	if err != nil {
 		common.LogerInsertText("./controllers/intendant/index.go:31line", err.Error())
 		return
 	} else {
-		if len(rows) == 0 {
+		if len(ruletop) == 0 {
 			common.Log.Notice("path:./controllers/intendant/index.go:34line", "info:menu not found")
 		} else {
-			data["menu"] = rows
+			data["menu"] = ruletop
 		}
 	}
 	session, _ := common.Sess.Get(r, "hmcms")
@@ -75,51 +74,23 @@ func (c *IndexController) Home(w http.ResponseWriter, r *http.Request, _ router.
 	tl.Execute(w, data)
 }
 func (c *IndexController) GetLeftMenu(w http.ResponseWriter, r *http.Request, _ router.Params) {
-	// rows, _ := sqlite.AuthRuleDb.Wherer("pid = ?", 0).Findr()
-	// fmt.Println(rows)
 	pid := r.PostFormValue("pid")
 	intpid, _ := strconv.Atoi(pid)
 	sqls := "SELECT * FROM hm_auth_rule WHERE pid = ?"
-	// rule := []AuthRule{}
-	// rows, err := sqlm.DB.Queryx(sqls)
 	rule := []sqlm.AuthRule{}
 	err := sqlm.DB.Select(&rule, sqls, intpid)
 	if err != nil {
-		log.Fatal(err)
+		common.Log.Error(err)
 	}
-	fmt.Println(rule)
-
 	for k, v := range rule {
 		srule := []sqlm.AuthRule{}
 		err = sqlm.DB.Select(&srule, sqls, v.Id)
 		if err != nil {
-			log.Fatal(err)
+			common.Log.Error(err)
 		}
-		// fmt.Println(srule)
 		for tk, _ := range srule {
 			rule[k].Children = append(rule[k].Children, srule[tk])
 		}
 	}
-	fmt.Println(rule)
-	// pid := r.PostFormValue("pid")
-	// // data := make(map[string][]map[string]string)
-	// intpid, _ := strconv.Atoi(pid)
-	// rows, _ := sqlite.AuthRuleDb.GetTwoMenu(intpid)
-	// fmt.Println(rows)
-	//
-	// for k, v := range rows {
-	//
-	// 	throws, _ := sqlite.AuthRuleDb.GetTwoMenu(v.Id)
-	// 	for tk, _ := range throws {
-	// 		rows[k].Children = append(rows[k].Children, throws[tk])
-	// 	}
-	// 	fmt.Println(rows)
-	// 	// for _, d := range throws {
-	// 	// 	node := sqlite.AuthRule{Id: v.Id, Title: v.Title, Children: sqlite.AuthRule{Id: d.Id, Title: d.Title}}
-	// 	// 	// sqlite.AuthRule.Children = append(sqlite.AuthRule.Children, &node)
-	// 	// }
-	// 	// fmt.Fprint(w, common.)
-	//
-	// }
 	fmt.Fprint(w, common.RowsJson(rule))
 }

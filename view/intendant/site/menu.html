@@ -21,7 +21,7 @@
     </ul>
 </div>
 <div id="frame_content">
-<form name="commonSort" class="ajax-form" action="/admin/site/sortmenu" method="post">
+<form name="commonSort" class="ajax-form" action="/intendant/site/sortmenu" method="post">
     <div class="frame_table_list" style="margin-top:85px;">
         <table id="example-advanced" width="100%">
             <colgroup>
@@ -49,7 +49,7 @@
                 <td style="text-indent:25px;"><i class="iconfont" style="color:#666;font-size: 14px;">&#xe600;</i>&nbsp;&nbsp;{{.Name}}</td>
                 <td align="center">{{if eq .Isshow 1}}<i class="iconfont" style="color:green;font-size: 16px;">&#xe60c;</i>{{else}}<i class="iconfont" style="color:red;font-size: 16px;">&#xe60a;</i>{{end}}</td>
                 <td align="center">{{.Url}}</td>
-                <td align="center"><a class="ajax-add blue" href="/Intendant/Site/addEditMenu/?pid={$menu['id']}" data-level="{{.Level}}"><i class="iconfont" style="color:white;font-size: 16px;">&#xe610;</i>&nbsp;&nbsp;添加子菜单</a>&nbsp;&nbsp;&nbsp;<a class="ajax-edit blue" href="/Intendant/Site/addEditMenu/?id={$menu['id']}"><i class="iconfont" style="color:white;font-size: 16px;">&#xe615;</i>&nbsp;&nbsp;修改</a>&nbsp;&nbsp;&nbsp;<a class="ajax-del red" data-title="{$menu['title']}" data-type="菜单" href="/Intendant/Site/delMenu" data-id="{$menu['id']}"><i class="iconfont" style="color:white;font-size: 16px;">&#xe614;</i>&nbsp;&nbsp;删除</a> </td>
+                <td align="center"><a class="ajax-add blue" href="/Intendant/Site/addEditMenu/?pid={{.Id}}" data-level="{{.Level}}"><i class="iconfont" style="color:white;font-size: 16px;">&#xe610;</i>&nbsp;&nbsp;添加子菜单</a>&nbsp;&nbsp;&nbsp;<a class="ajax-edit blue" href="/Intendant/Site/addEditMenu/?id={{.Id}}"><i class="iconfont" style="color:white;font-size: 16px;">&#xe615;</i>&nbsp;&nbsp;修改</a>&nbsp;&nbsp;&nbsp;<a class="ajax-del red" data-title="{$menu['title']}" data-type="菜单" href="/Intendant/Site/delMenu" data-id="{{.Id}}"><i class="iconfont" style="color:white;font-size: 16px;">&#xe614;</i>&nbsp;&nbsp;删除</a> </td>
             </tr>
             {{end}}
         </table>
@@ -65,11 +65,11 @@
 </form>
 </div>
 </body>
-<script src="/static/common/js/dist/jquery-1.12.3.min.js"></script>
+<script src="/static/common/js/jquery-1.12.3.min.js"></script>
 <script src="/static/common/js/treetable/jquery.treetable.js"></script>
 <script src="/static/common/js/layer/layer.js"></script>
-<script src="/static/admin/js/admin.common.js"></script>
-<script src="/static/admin/js/common.ajax.js"></script>
+<script src="/static/intendant/js/admin.common.js"></script>
+<script src="/static/intendant/js/common.ajax.js"></script>
 <script>
 var option = {
     expandable: true,

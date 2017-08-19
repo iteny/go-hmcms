@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"time"
 
@@ -26,6 +27,8 @@ func init() {
 	x, err = xorm.NewEngine("sqlite3", "./sql/hmcms.db")
 	if err != nil {
 		log.Fatalf("Fail to create engine: %v\n", err)
+	} else {
+		fmt.Println("xorm已经打开")
 	}
 	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, "hm_")
 	x.SetTableMapper(tbMapper)

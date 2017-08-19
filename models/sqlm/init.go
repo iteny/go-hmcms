@@ -5,6 +5,7 @@ import (
 	"go-hmcms/models/common"
 
 	"github.com/jmoiron/sqlx"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 // var Db *sqlm.DB
