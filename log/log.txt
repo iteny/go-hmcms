@@ -1,5 +1,5 @@
-sql: unknown driver "sqlite3" (forgotten import?)
-set
+sql: no rows in result set
+sql: no rows in result set
 sql: no rows in result set
 sql: no rows in result set
  not found!

@@ -71,7 +71,7 @@
 		<div class="options">
             <a href="" id="J_fullScreen" class="bsn full_screen active" title="最大化/最小化"><i class="iconfont" style="color:white;font-size: 13px;">&#xe609;</i></a>
         </div>
-        <iframe name="rightFrame" id="iframe_default" src="/intendant/index/home" style="height: 100%; width: 100%;display:block;" data-id="default" frameborder="0" scrolling="auto"></iframe>
+        <iframe name="rightFrame" id="iframe_default" src="/intendant/home" style="height: 100%; width: 100%;display:block;" data-id="default" frameborder="0" scrolling="auto"></iframe>
     </div>
 </div>
 </body>
@@ -162,7 +162,7 @@ $('#J_fullScreen').click(function (e) {
 		$('.options').attr('style','top:38px;');
 	}
 });
-var getLeftMenu = '/intendant/index/getLeftMenu';
+var getLeftMenu = '/intendant/getLeftMenu';
 //获取左侧菜单
 $(".top-nav").click(function(e) {
 	if($(this).parent('li').attr("class") == "action"){

@@ -12,6 +12,6 @@ func (c *BaseController) VerifyLogin(w http.ResponseWriter, r *http.Request) {
 	session, _ := common.Sess.Get(r, "hmcms")
 	userId := session.Values["uid"]
 	if userId == nil {
-		http.Redirect(w, r, "/admin", http.StatusFound)
+		http.Redirect(w, r, "/intendant", http.StatusFound)
 	}
 }

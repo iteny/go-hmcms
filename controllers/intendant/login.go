@@ -25,7 +25,7 @@ func init() {
 }
 
 //login page
-func (c *LoginController) Login(w http.ResponseWriter, r *http.Request, ps router.Params) {
+func (c *LoginController) Login(w http.ResponseWriter, r *http.Request) {
 	// tNow := time.Now()
 	// cookie := http.Cookie{Name: "username", Value: "BCL", Expires: tNow.AddDate(1, 0, 0)}
 	// http.SetCookie(w, &cookie)
@@ -37,7 +37,7 @@ func (c *LoginController) Login(w http.ResponseWriter, r *http.Request, ps route
 }
 
 //login handlered
-func (c *LoginController) LoginGo(w http.ResponseWriter, r *http.Request, ps router.Params) {
+func (c *LoginController) LoginGo(w http.ResponseWriter, r *http.Request) {
 	username, password := r.PostFormValue("username"), r.PostFormValue("password")
 	b := bytes.Buffer{}
 	b.WriteString("errored")

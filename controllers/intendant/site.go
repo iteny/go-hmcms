@@ -10,8 +10,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
-
-	router "github.com/julienschmidt/httprouter"
 )
 
 var SiteCtl *SiteController
@@ -25,7 +23,7 @@ func init() {
 }
 
 //menu page
-func (c *SiteController) Menu(w http.ResponseWriter, r *http.Request, _ router.Params) {
+func (c *SiteController) Menu(w http.ResponseWriter, r *http.Request) {
 	c.VerifyLogin(w, r)
 	data := make(map[string]interface{})
 	sqls := "SELECT * FROM hm_auth_rule"
@@ -41,7 +39,7 @@ func (c *SiteController) Menu(w http.ResponseWriter, r *http.Request, _ router.P
 }
 
 //menu sort
-func (c *SiteController) SortMenu(w http.ResponseWriter, r *http.Request, _ router.Params) {
+func (c *SiteController) SortMenu(w http.ResponseWriter, r *http.Request) {
 	sortMenu := make(map[string]string, 0)
 	result, err := ioutil.ReadAll(r.Body)
 	if err != nil {

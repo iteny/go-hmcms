@@ -1,59 +1,121 @@
 package main
 
 import (
-	"flag"
 	"go-hmcms/controllers/intendant"
+	"go-hmcms/models/ini"
 	_ "go-hmcms/models/sqlm"
-	"io"
+	"go-hmcms/mymiddleware"
 	"log"
 	"net/http"
 	"os"
-	"path"
-	"strconv"
+	"path/filepath"
+	"strings"
 	"time"
 
-	router "github.com/julienschmidt/httprouter"
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 )
 
-var dir string
-var port int
-var staticHandler http.Handler
-
-// 初始化参数
-func init() {
-	dir = path.Dir(os.Args[0])
-	flag.IntVar(&port, "port", 8080, "服务器端口")
-	flag.Parse()
-	staticHandler = http.FileServer(http.Dir(dir))
+// var dir string
+// var port int
+// var staticHandler http.Handler
+//
+// // 初始化参数
+// func init() {
+// 	dir = path.Dir(os.Args[0])
+// 	flag.IntVar(&port, "port", 8080, "服务器端口")
+// 	flag.Parse()
+// 	staticHandler = http.FileServer(http.Dir(dir))
+// }
+type server struct {
+	Addr         string
+	ReadTimeout  time.Duration
+	WriteTimeout time.Duration
 }
 
 func main() {
-	router := router.New()
-	router.GET("/intendant", intendant.LoginCtl.Login)
-	router.POST("/intendant/login", intendant.LoginCtl.LoginGo)
-	router.GET("/intendant/index", intendant.IndexCtl.Index)
-	router.GET("/intendant/index/home", intendant.IndexCtl.Home)
-	router.POST("/intendant/index/getLeftMenu", intendant.IndexCtl.GetLeftMenu)
-	// menu page
-	router.GET("/intendant/site/menu", intendant.SiteCtl.Menu)
-	// menu sort
-	router.POST("/intendant/site/sortmenu", intendant.SiteCtl.SortMenu)
-	// router.NotFound = router.GET("/error", intendant.Error)
-	router.GET("/static/*filepath", StaticServer)
+	// router := router.New()
+	// router.GET("/intendant", intendant.LoginCtl.Login)
+	// router.POST("/intendant/login", intendant.LoginCtl.LoginGo)
+	// router.GET("/intendant/index", intendant.IndexCtl.Index)
+	// router.GET("/intendant/index/home", intendant.IndexCtl.Home)
+	// router.POST("/intendant/index/getLeftMenu", intendant.IndexCtl.GetLeftMenu)
+	// // menu page
+	// router.GET("/intendant/site/menu", intendant.SiteCtl.Menu)
+	// // menu sort
+	// router.POST("/intendant/site/sortmenu", intendant.SiteCtl.SortMenu)
+	// router.op
+	// // router.NotFound = router.GET("/error", intendant.Error)
+	// router.GET("/static/*filepath", StaticServer)
 
+	server := &server{Addr: "80", ReadTimeout: 10, WriteTimeout: 10}
+	// servPort := ini.Value("servSet", "port")
+	// servReadTimeout := ini.Value("servSet", "ReadTimeout")
+	// servWriteTimeout := ini.Value("servSet", "WriteTimeout")
+	if servPort := ini.Value("servSet", "port"); servPort != "" {
+		server.Addr = servPort
+	}
+	if servReadTimeout, _ := ini.Int("servSet", "ReadTimeout"); servReadTimeout != 0 {
+		server.ReadTimeout = time.Duration(servReadTimeout)
+	}
+	if servWriteTimeout, _ := ini.Int("servSet", "WriteTimeout"); servWriteTimeout != 0 {
+		server.WriteTimeout = time.Duration(servWriteTimeout)
+	}
+	r := chi.NewRouter()
+	r.Use(middleware.RequestID)
+	r.Use(middleware.RealIP)
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+	// Set a timeout value on the request context (ctx), that will signal
+	// through ctx.Done() that the request has timed out and further
+	// processing should be stopped.
+	r.Use(middleware.Timeout(60 * time.Second))
+	r.Get("/intendant", intendant.LoginCtl.Login)
+	//mount website back-stage routes
+	r.Mount("/intendant", intendantRoutes())
+	//Easily serve static files
+	workDir, _ := os.Getwd()
+	filesDir := filepath.Join(workDir, "static")
+	FileServer(r, "/static", http.Dir(filesDir))
+	//http server
 	s := &http.Server{
-		Addr:           ":" + strconv.Itoa(port),
-		Handler:        router,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
+		Addr:           ":" + server.Addr,
+		Handler:        r,
+		ReadTimeout:    server.ReadTimeout * time.Second,
+		WriteTimeout:   server.WriteTimeout * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
 	log.Fatal(s.ListenAndServe())
 }
-func StaticServer(w http.ResponseWriter, req *http.Request, ps router.Params) {
-	if req.URL.Path != "/" {
-		staticHandler.ServeHTTP(w, req)
-		return
+
+// FileServer conveniently sets up a http.FileServer handler to serve
+// static files from a http.FileSystem.
+func FileServer(r chi.Router, path string, root http.FileSystem) {
+	if strings.ContainsAny(path, "{}*") {
+		panic("FileServer does not permit URL parameters.")
 	}
-	io.WriteString(w, "hello, world!\n")
+	fs := http.StripPrefix(path, http.FileServer(root))
+	if path != "/" && path[len(path)-1] != '/' {
+		r.Get(path, http.RedirectHandler(path+"/", 301).ServeHTTP)
+		path += "/"
+	}
+	path += "*"
+	r.Get(path, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fs.ServeHTTP(w, r)
+	}))
+}
+
+//website back-stage routes
+func intendantRoutes() http.Handler {
+	r := chi.NewRouter()
+	r.Post("/login", intendant.LoginCtl.LoginGo)
+	r.Get("/index", intendant.IndexCtl.Index)
+	r.Get("/home", intendant.IndexCtl.Home)
+	r.Post("/getLeftMenu", intendant.IndexCtl.GetLeftMenu)
+	//menu set routes
+	r.Route("/site", func(r chi.Router) {
+		r.Use(mymiddleware.ArticleCtx)
+		r.Get("/menu", intendant.SiteCtl.Menu)
+	})
+	return r
 }

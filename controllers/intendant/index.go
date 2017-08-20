@@ -10,8 +10,6 @@ import (
 	"os"
 	"runtime"
 	"strconv"
-
-	router "github.com/julienschmidt/httprouter"
 )
 
 var IndexCtl *IndexController
@@ -23,7 +21,7 @@ type IndexController struct {
 func init() {
 	IndexCtl = &IndexController{}
 }
-func (c *IndexController) Index(w http.ResponseWriter, r *http.Request, ps router.Params) {
+func (c *IndexController) Index(w http.ResponseWriter, r *http.Request) {
 	c.VerifyLogin(w, r)
 	data := make(map[string]interface{})
 	sqls := "SELECT id,name FROM hm_auth_rule WHERE pid = 0 ORDER BY sort ASC"
@@ -49,7 +47,7 @@ func (c *IndexController) Index(w http.ResponseWriter, r *http.Request, ps route
 	tl, _ := template.ParseFiles("./view/intendant/index/index.html")
 	tl.Execute(w, data)
 }
-func (c *IndexController) Home(w http.ResponseWriter, r *http.Request, _ router.Params) {
+func (c *IndexController) Home(w http.ResponseWriter, r *http.Request) {
 	c.VerifyLogin(w, r)
 	data := make(map[string]interface{})
 	hostname, _ := os.Hostname()
@@ -73,7 +71,7 @@ func (c *IndexController) Home(w http.ResponseWriter, r *http.Request, _ router.
 	tl, _ := template.ParseFiles("./view/intendant/index/home.html")
 	tl.Execute(w, data)
 }
-func (c *IndexController) GetLeftMenu(w http.ResponseWriter, r *http.Request, _ router.Params) {
+func (c *IndexController) GetLeftMenu(w http.ResponseWriter, r *http.Request) {
 	pid := r.PostFormValue("pid")
 	intpid, _ := strconv.Atoi(pid)
 	sqls := "SELECT * FROM hm_auth_rule WHERE pid = ?"
