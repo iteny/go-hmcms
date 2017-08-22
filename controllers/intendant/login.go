@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"github.com/asaskevich/govalidator"
-	router "github.com/julienschmidt/httprouter"
 )
 
 var LoginCtl *LoginController
@@ -148,7 +147,8 @@ func (c *LoginController) LoginGo(w http.ResponseWriter, r *http.Request) {
 }
 
 //error package
-func Error(w http.ResponseWriter, r *http.Request, ps router.Params) {
+func (c *LoginController) Error(w http.ResponseWriter, r *http.Request) {
+
 	tl, _ := template.ParseFiles("./view/intendant/error/error.html")
 	tl.Execute(w, nil)
 }

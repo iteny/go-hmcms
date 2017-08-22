@@ -74,3 +74,17 @@ func (c *SiteController) SortMenu(w http.ResponseWriter, r *http.Request) {
 	tx.Commit()
 	fmt.Fprint(w, common.ResponseJson(1, "菜单排序成功！"))
 }
+func (c *SiteController) AddEditMenuGet(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	s1 := query["id"]
+	s2 := query["pid"]
+	// s := r.Form["id"]
+	// ss := r.Form["pid"]
+	fmt.Printf("id=%v,pid=%v", s1, s2)
+	tl, _ := template.ParseFiles("./view/intendant/site/addMenu.html")
+	tl.Execute(w, nil)
+}
+func (c *SiteController) AddEditMenuPost(w http.ResponseWriter, r *http.Request) {
+	tl, _ := template.ParseFiles("./view/intendant/site/addMenu.html")
+	tl.Execute(w, nil)
+}

@@ -16,17 +16,6 @@ import (
 	"github.com/go-chi/chi/middleware"
 )
 
-// var dir string
-// var port int
-// var staticHandler http.Handler
-//
-// // 初始化参数
-// func init() {
-// 	dir = path.Dir(os.Args[0])
-// 	flag.IntVar(&port, "port", 8080, "服务器端口")
-// 	flag.Parse()
-// 	staticHandler = http.FileServer(http.Dir(dir))
-// }
 type server struct {
 	Addr         string
 	ReadTimeout  time.Duration
@@ -34,24 +23,7 @@ type server struct {
 }
 
 func main() {
-	// router := router.New()
-	// router.GET("/intendant", intendant.LoginCtl.Login)
-	// router.POST("/intendant/login", intendant.LoginCtl.LoginGo)
-	// router.GET("/intendant/index", intendant.IndexCtl.Index)
-	// router.GET("/intendant/index/home", intendant.IndexCtl.Home)
-	// router.POST("/intendant/index/getLeftMenu", intendant.IndexCtl.GetLeftMenu)
-	// // menu page
-	// router.GET("/intendant/site/menu", intendant.SiteCtl.Menu)
-	// // menu sort
-	// router.POST("/intendant/site/sortmenu", intendant.SiteCtl.SortMenu)
-	// router.op
-	// // router.NotFound = router.GET("/error", intendant.Error)
-	// router.GET("/static/*filepath", StaticServer)
-
 	server := &server{Addr: "80", ReadTimeout: 10, WriteTimeout: 10}
-	// servPort := ini.Value("servSet", "port")
-	// servReadTimeout := ini.Value("servSet", "ReadTimeout")
-	// servWriteTimeout := ini.Value("servSet", "WriteTimeout")
 	if servPort := ini.Value("servSet", "port"); servPort != "" {
 		server.Addr = servPort
 	}
@@ -64,13 +36,12 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
-	r.Use(middleware.Logger)
+	// r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	// Set a timeout value on the request context (ctx), that will signal
 	// through ctx.Done() that the request has timed out and further
 	// processing should be stopped.
 	r.Use(middleware.Timeout(60 * time.Second))
-	r.Get("/intendant", intendant.LoginCtl.Login)
 	//mount website back-stage routes
 	r.Mount("/intendant", intendantRoutes())
 	//Easily serve static files
@@ -108,14 +79,23 @@ func FileServer(r chi.Router, path string, root http.FileSystem) {
 //website back-stage routes
 func intendantRoutes() http.Handler {
 	r := chi.NewRouter()
+	r.Use(mymiddleware.ArticleCtx)
+	r.Get("/", intendant.LoginCtl.Login)
 	r.Post("/login", intendant.LoginCtl.LoginGo)
 	r.Get("/index", intendant.IndexCtl.Index)
 	r.Get("/home", intendant.IndexCtl.Home)
 	r.Post("/getLeftMenu", intendant.IndexCtl.GetLeftMenu)
+	r.NotFound(intendant.LoginCtl.Error)
+	// r.Get(pattern, handlerFn)
 	//menu set routes
 	r.Route("/site", func(r chi.Router) {
-		r.Use(mymiddleware.ArticleCtx)
 		r.Get("/menu", intendant.SiteCtl.Menu)
+		r.Route("/addEditMenu", func(r chi.Router) {
+			r.Get("/", intendant.SiteCtl.AddEditMenuGet)
+			r.Get("/?pid={articleID}", intendant.SiteCtl.AddEditMenuGet)
+			r.Get("/?id={articleID}", intendant.SiteCtl.AddEditMenuGet)
+			r.Post("/", intendant.SiteCtl.AddEditMenuPost)
+		})
 	})
 	return r
 }
