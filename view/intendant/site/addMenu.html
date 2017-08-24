@@ -2,35 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>添加菜单</title>
-    <link href="/public/admin/css/frame.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>菜单配置</title>
+    <link rel="stylesheet" type="text/css" href="/static/intendant/css/admin.css">
+    <link rel="stylesheet" type="text/css" href="/static/intendant/css/frame.css">
+    <link rel="stylesheet" type="text/css" href="/static/common/js/zTree/css/zTreeStyle/zTreeStyle.css">
 </head>
 <body>
-<div id="frame-top">
+<div id="frame_top">
     当前位置&nbsp;<i class="iconfont" style="color:#666;font-size: 12px;">&#xe60e;</i>&nbsp;&nbsp;设置&nbsp;&nbsp;<i class="iconfont" style="color:#666;font-size: 12px;">&#xe60f;</i>&nbsp;&nbsp;站长设置&nbsp;&nbsp;<i class="iconfont" style="color:#666;font-size: 12px;">&#xe60f;</i>&nbsp;&nbsp;菜单设置&nbsp;&nbsp;<i class="iconfont" style="color:#666;font-size: 12px;">&#xe60f;</i>&nbsp;&nbsp;添加菜单
 </div>
-<div id="frame-toolbar">
+<div id="frame_toolbar">
     <ul>
-        <li><a href="/intendant/Site/menu"><i class="iconfont" style="color:white;font-size: 16px;">&#xe611;</i>&nbsp;&nbsp;菜单设置</a></li>
-        <li><a class="active" href="/intendant/Site/addEditMenu"><i class="iconfont" style="color:white;font-size: 16px;">&#xe610;</i>&nbsp;&nbsp;添加菜单</a></li>
+        <li><a href="/intendant/site/menu"><i class="iconfont" style="color:white;font-size: 14px;">&#xe611;</i>&nbsp;&nbsp;菜单设置</a></li>
+        <li><a class="active" href="/intendant/site/addEditMenu"><i class="iconfont" style="color:white;font-size: 14px;">&#xe610;</i>&nbsp;&nbsp;添加菜单</a></li>
     </ul>
 </div>
-<div id="frame-content">
-    <form name="addMenu" method="post" class="J_ajaxForm" action="/intendant/Site/addEditMenu" novalidate="novalidate">
+<div id="frame_content">
+    <form name="addMenu" method="post" class="J_ajaxForm" action="/intendant/site/addEditMenu" novalidate="novalidate">
         <input type="hidden" name="addEditMenu" value="addEditMenu">
 
-        <div class="frame-table-list">
-            <div class="input-title">添加菜单</div>
+        <div class="frame_table_list">
+            <div class="input_title">添加菜单</div>
             <table cellpadding="0" cellspacing="0" class="table_form" width="100%">
                 <tbody>
                 <tr>
                     <td width="140">上级菜单:</td>
                     <td>
-                        <select name="pid" class="length_5">
-                        <option value="0" <if condition='$parentid eq 0'>selected</if>>顶级菜单</option>
-	                  <volist name="selectMenu" id="vo">
+                        <!-- <select name="pid" class="length_5"> -->
+                        <!-- <option value="0" <if condition='$parentid eq 0'>selected</if>>顶级菜单</option> -->
+	                  <!-- <volist name="selectMenu" id="vo">
 	                  	<option value="{$vo.id}" <if condition='$vo["id"] eq $pid'>selected</if>>{:str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;',$vo['level'])}<if condition='$vo["level"] gt 0'>├─</if>{$vo.html}{$vo.title}</option>
-	                  </volist>
+	                  </volist> -->
+                      <div class="table-tree">
+                          <ul id="treeMenu" class="ztree">
+                          </ul>
+                      </div>
                     </td>
                 </tr>
                 <tr>
@@ -52,9 +60,9 @@
                 <tr>
                     <td>菜单图标：</td>
                     <td>
-                        <input id="System_Menu_icons_input" name="icon" type="hidden" value="&#xe605;">
+                        <!-- <input id="System_Menu_icons_input" name="icon" type="hidden" value="&#xe605;">
                         <strong id="System_Menu_icons" style="margin-right: 10px;"><i style='color: #666;font-size: 16px;' class='iconfont'>&#xe605;</i></span></strong>
-                        <a class="btn" onclick="Show_System_Menu_icons()">选择图标</a>
+                        <a class="btn" onclick="Show_System_Menu_icons()">选择图标</a> -->
                     </td>
                 </tr>
                 <tr>
@@ -82,7 +90,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="frame-table-btn">
+        <div class="frame_table_btn">
             <button class="btn ajax-add" type="submit">添加</button>
         </div>
     </form>
@@ -94,11 +102,58 @@
     var checkAddMTit = '/intendant/SiteCom/checkAddMTit';
     var checkAddMname = '/intendant/SiteCom/checkAddMname';
 </script>
-<script src="/public/common/js/jquery/jquery-1.12.3.min.js"></script>
-<script src="/public/common/js/jquery.validate.min.js"></script>
-<script src="/public/common/js/layer/layer.js"></script>
-<script src="/public/admin/js/admin.common.js"></script>
+<script src="/static/common/js/jquery-1.12.3.min.js"></script>
+<script src="/static/common/js/jquery.validate.min.js"></script>
+<script src="/static/common/js/layer/layer.js"></script>
+<script src="/static/intendant/js/admin.common.js"></script>
+<script src="/static/common/js/zTree/js/jquery.ztree.core-3.5.min.js"></script>
+<script src="/static/common/js/zTree/js/jquery.ztree.excheck-3.5.min.js"></script>
+<script src="/static/common/js/poshytip/src/jquery.poshytip.min.js"></script>
 <script>
+//配置
+var setting = {
+    check: {
+        enable: true,
+        chkboxType:{ "Y" : "ps", "N" : "ps" }
+    },
+    data: {
+        simpleData: {
+            enable: true,
+            idKey: "id",
+            pIdKey: "pid",
+        }
+    },
+    callback: {
+        beforeClick: function (treeId, treeNode) {
+            if (treeNode.isParent) {
+                zTree.expandNode(treeNode);
+                return false;
+            } else {
+                return true;
+            }
+        },
+        onClick:function(event, treeId, treeNode){
+            //栏目ID
+            var catid = treeNode.catid;
+            //保存当前点击的栏目ID
+            setCookie('tree_catid',catid,1);
+        }
+    },
+    view:{
+        nameIsHTML: true
+    }
+};
+//节点数据
+var zNodes = {{.json}};
+$.fn.zTree.init($("#treeMenu"), setting, zNodes);
+// setCheck();
+// 	$("#py").bind("change", setCheck);
+// 	$("#sy").bind("change", setCheck);
+// 	$("#pn").bind("change", setCheck);
+// 	$("#sn").bind("change", setCheck);
+$.fn.zTree.init($("#treeMenu"), setting, zNodes);
+zTree = $.fn.zTree.getZTreeObj("treeMenu");
+zTree.expandAll(true);
     function Select_System_Menu_icons(icon){
         $("#System_Menu_icons").html('<i class="iconfont">'+icon+'</i>');
         $("#System_Menu_icons_input").val(icon);

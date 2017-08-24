@@ -190,16 +190,16 @@ $(".top-nav").click(function(e) {
 			for(var i=0; i<count; i++)
 			{
 				str += '<div data-collapse>';
-				str += '<h2 style="position: relative;" class="open west active" data-name="'+data[i]['Name']+'"><i class="tou iconfont" style="font-size: 18px;">&#xe604;</i><em>'+data[i]['Name']+'</em><i class="htwo iconfont" style="font-size: 12px;position: relative;right: -55px;">&#xe605;</i></h2>';
+				str += '<h2 style="position: relative;" class="open west active" data-name="'+data[i]['name']+'"><i class="tou iconfont" style="font-size: 18px;">&#xe604;</i><em>'+data[i]['name']+'</em><i class="htwo iconfont" style="font-size: 12px;position: relative;right: -55px;">&#xe605;</i></h2>';
 				str += '<ul>';
-				var icount = data[i]['Children'].length;
+				var icount = data[i]['children'].length;
 				for(var s=0; s<icount; s++)
 				{
-					if(data[i]['Children'][s]['Icon'] == 0){
+					if(data[i]['children'][s]['icon'] == 0){
 						var icon = "&#xe60a";
 					}
-					var thdizhi = '/intendant/'+data[i]['Children'][s]['Url'];
-					str += '<li><a class="west" href="'+thdizhi+'" target="rightFrame" data-name="'+data[i]['Children'][s]['Name']+'"><i class="iconfont" style="color:white;font-size: 14px;">'+icon+'</i><em>'+data[i]['Children'][s]['Name']+'</em></a></li>';
+					var thdizhi = '/intendant/'+data[i]['children'][s]['url'];
+					str += '<li><a class="west" href="'+thdizhi+'" target="rightFrame" data-name="'+data[i]['children'][s]['name']+'"><i class="iconfont" style="color:white;font-size: 14px;">'+icon+'</i><em>'+data[i]['children'][s]['name']+'</em></a></li>';
 				}
 				str += '</ul>';
 				str += '</div>';

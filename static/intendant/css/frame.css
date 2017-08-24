@@ -45,7 +45,7 @@ font-size:16px;font-style:normal;
     position: fixed;top:0px;
 	height: 32px;
 	line-height: 32px;
-	text-indent: 25px;
+	text-indent: 5px;
 	box-shadow: inset 0px 0px 1px 0px #fff;
 	border-bottom: 1px solid #ddd;
     background: white;
@@ -57,6 +57,24 @@ font-size:16px;font-style:normal;
 }
 #frame_content{
     padding: 20px;
+    margin-top: 85px;
+}
+#frame_content .input_title{
+    height: 36px;
+    line-height: 36px;
+    background-color: #f8f8f8;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f2f2f2));
+    background: -webkit-linear-gradient(top, #f8f8f8, #f2f2f2);
+    background: -moz-linear-gradient(top, #f8f8f8, #f2f2f2);
+    background: -ms-linear-gradient(top, #f8f8f8, #f2f2f2);
+    background: -o-linear-gradient(top, #f8f8f8, #f2f2f2);
+    background: linear-gradient(top, #f8f8f8, #f2f2f2);
+    /* border-top: 1px solid #ccc; */
+    /* border-bottom: 1px solid #ccc; */
+    /*width: 100%;*/
+    text-indent: 15px;
+    color: #707070;
+    /*z-index: 5;*/
 }
 .input, textarea, select {
     padding: 4px 4px;
@@ -261,7 +279,7 @@ td, th, div {
 #frame_toolbar{
     /*height: 50px;
     line-height: 50px;*/
-    position: fixed;top:37px;
+    position: fixed;top:33px;
     width: 100%;
     border-bottom: 1px solid #ddd;
     z-index: 9999;

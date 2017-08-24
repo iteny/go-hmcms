@@ -81,8 +81,27 @@ func (c *SiteController) AddEditMenuGet(w http.ResponseWriter, r *http.Request) 
 	// s := r.Form["id"]
 	// ss := r.Form["pid"]
 	fmt.Printf("id=%v,pid=%v", s1, s2)
+	data := make(map[string]interface{})
+	sqls := "SELECT * FROM hm_auth_rule"
+	allrule := []sqlm.AuthRule{}
+	err := sqlm.DB.Select(&allrule, sqls)
+	if err != nil {
+		common.Log.Error(err)
+	}
+	fmt.Printf("%T", allrule)
+	// rows, _ := sqlm.DB.NamedQuery(sqls, map[string]interface{}{"fn": "Bin"})
+	// for rows.Next() {
+	// 	err := rows.StructScan(&allrule)
+	// 	if err != nil {
+	// 		log.Fatalln(err)
+	// 	}
+	// }
+	// 	fmt.Printf("%#v\n", allrule)
+	// }
+	// fmt.Println(rows)
+	data["json"] = allrule
 	tl, _ := template.ParseFiles("./view/intendant/site/addMenu.html")
-	tl.Execute(w, nil)
+	tl.Execute(w, data)
 }
 func (c *SiteController) AddEditMenuPost(w http.ResponseWriter, r *http.Request) {
 	tl, _ := template.ParseFiles("./view/intendant/site/addMenu.html")

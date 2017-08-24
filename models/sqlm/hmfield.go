@@ -14,15 +14,15 @@ type User struct {
 
 //table hm_auth_rule
 type AuthRule struct {
-	Id       int
-	Url      string
-	Name     string
-	Pid      int
-	Isshow   int
-	Sort     int
-	Icon     string
-	Level    int
-	Children []AuthRule
+	Id       int        `json:"id"`
+	Url      string     `json:"url"`
+	Name     string     `json:"name"`
+	Pid      int        `json:"pid"`
+	Isshow   int        `json:"isshow"`
+	Sort     int        `json:"sort"`
+	Icon     string     `json:"icon"`
+	Level    int        `json:"level"`
+	Children []AuthRule `json:"children"`
 }
 
 //递归重新排序无限极分类

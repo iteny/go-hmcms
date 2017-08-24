@@ -1,9 +1,5 @@
-sql: no rows in result set
-sql: no rows in result set
-sql: no rows in result set
-sql: no rows in result set
- not found!
-login error number not found!
+time:2017-08-24 18:00:15 path:./controllers/intendant/index.go:31line info: missing destination name id in *[]sqlm.AuthRule
+n error number not found!
 login error number not found!
 login error number not found!
 ers/intendant/index.go:34line info:menu not found
