@@ -20,7 +20,7 @@ type AuthRule struct {
 	Pid      int        `json:"pid"`
 	Isshow   int        `json:"isshow"`
 	Sort     int        `json:"sort"`
-	Icon     string     `json:"icon"`
+	Icon     string     `json:"iconSkin"`
 	Level    int        `json:"level"`
 	Children []AuthRule `json:"children"`
 }

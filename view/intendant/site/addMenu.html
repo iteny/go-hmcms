@@ -7,7 +7,8 @@
     <title>菜单配置</title>
     <link rel="stylesheet" type="text/css" href="/static/intendant/css/admin.css">
     <link rel="stylesheet" type="text/css" href="/static/intendant/css/frame.css">
-    <link rel="stylesheet" type="text/css" href="/static/common/js/zTree/css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" type="text/css" href="/static/common/js/ztree/zTreeStyle.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 <div id="frame_top">
@@ -25,20 +26,25 @@
 
         <div class="frame_table_list">
             <div class="input_title">添加菜单</div>
+            <div id="hm_tree">
+                <ul id="treeMenu" class="ztree" style="margin-top:0;width:178px;height:280px;overflow:auto;">
+                </ul>
+            </div>
             <table cellpadding="0" cellspacing="0" class="table_form" width="100%">
                 <tbody>
                 <tr>
                     <td width="140">上级菜单:</td>
                     <td>
+                        <input type="text" class="input length_3" name="pid" value="" id="pid" disabled>
                         <!-- <select name="pid" class="length_5"> -->
                         <!-- <option value="0" <if condition='$parentid eq 0'>selected</if>>顶级菜单</option> -->
 	                  <!-- <volist name="selectMenu" id="vo">
 	                  	<option value="{$vo.id}" <if condition='$vo["id"] eq $pid'>selected</if>>{:str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;',$vo['level'])}<if condition='$vo["level"] gt 0'>├─</if>{$vo.html}{$vo.title}</option>
 	                  </volist> -->
-                      <div class="table-tree">
-                          <ul id="treeMenu" class="ztree">
-                          </ul>
-                      </div>
+                      <a class="btn" onclick="showTree('pid')">选择图标</a>
+
+
+
                     </td>
                 </tr>
                 <tr>
@@ -60,9 +66,9 @@
                 <tr>
                     <td>菜单图标：</td>
                     <td>
-                        <!-- <input id="System_Menu_icons_input" name="icon" type="hidden" value="&#xe605;">
+                        <input id="System_Menu_icons_input" name="icon" type="hidden" value="&#xe605;">
                         <strong id="System_Menu_icons" style="margin-right: 10px;"><i style='color: #666;font-size: 16px;' class='iconfont'>&#xe605;</i></span></strong>
-                        <a class="btn" onclick="Show_System_Menu_icons()">选择图标</a> -->
+                        <a class="btn" onclick="Show_System_Menu_icons()">选择图标</a>
                     </td>
                 </tr>
                 <tr>
@@ -90,6 +96,7 @@
                 </tbody>
             </table>
         </div>
+
         <div class="frame_table_btn">
             <button class="btn ajax-add" type="submit">添加</button>
         </div>
@@ -106,16 +113,16 @@
 <script src="/static/common/js/jquery.validate.min.js"></script>
 <script src="/static/common/js/layer/layer.js"></script>
 <script src="/static/intendant/js/admin.common.js"></script>
-<script src="/static/common/js/zTree/js/jquery.ztree.core-3.5.min.js"></script>
-<script src="/static/common/js/zTree/js/jquery.ztree.excheck-3.5.min.js"></script>
+<script src="/static/common/js/ztree/jquery.ztree.core.min.js"></script>
+<script src="/static/common/js/ztree/jquery.ztree.excheck.min.js"></script>
 <script src="/static/common/js/poshytip/src/jquery.poshytip.min.js"></script>
 <script>
 //配置
 var setting = {
-    check: {
-        enable: true,
-        chkboxType:{ "Y" : "ps", "N" : "ps" }
-    },
+    // check: {
+    //     enable: true,
+    //     chkboxType:{ "Y" : "ps", "N" : "ps" }
+    // },
     data: {
         simpleData: {
             enable: true,
@@ -154,6 +161,13 @@ $.fn.zTree.init($("#treeMenu"), setting, zNodes);
 $.fn.zTree.init($("#treeMenu"), setting, zNodes);
 zTree = $.fn.zTree.getZTreeObj("treeMenu");
 zTree.expandAll(true);
+function showTree(domId) {
+    var cityObj = $("#"+domId);
+    var cityOffset = $("#"+domId).offset();
+    $("#hm_tree").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+
+    $("body").bind("mousedown", onBodyDown);
+}
     function Select_System_Menu_icons(icon){
         $("#System_Menu_icons").html('<i class="iconfont">'+icon+'</i>');
         $("#System_Menu_icons_input").val(icon);
