@@ -16,6 +16,7 @@
     text-decoration: none;
     font-style: normal;
 }
+
 @font-face {font-family: 'iconfont';
 src: url('../font/iconfont.eot'); /* IE9*/
 src: url('../font/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
@@ -141,7 +142,7 @@ list-style-type: none;
     line-height: 32px;
     margin: 0 10px;
     overflow: hidden;
-    text-indent: 25px;
+    text-indent: 20px;
 }
 #menu li em{padding-left: 10px;font-style: normal;}
 #menu li a{
@@ -201,6 +202,9 @@ list-style-type: none;
     height: 38px;
     line-height: 38px;
 }
+#menu h2:hover i.tou{
+	color: white;
+}
 #hmRight{
     margin-left: 181px;
     z-index: 9999;
@@ -232,7 +236,7 @@ list-style-type: none;
     line-height: 20px;
     /*padding:6px;*/
     width: 20px;
-    text-indent: 4px;
+    text-indent: 2px;
     /*text-indent: -2000em;*/
 
 }
@@ -309,3 +313,25 @@ list-style-type: none;
 #frame_top i{
 	color:#707070;font-size: 12px;
 }
+/*字体图标的配色方案*/
+.fa-color-1{color: #1abc9c;}
+.fa-color-2{color: #2ecc71;}
+.fa-color-3{color: #3498db;}
+.fa-color-4{color: #9b59b6;}
+.fa-color-5{color: #34495e;}
+.fa-color-6{color: #16a085;}
+.fa-color-7{color: #27ae60;}
+.fa-color-8{color: #2980b9;}
+.fa-color-9{color: #8e44ad;}
+.fa-color-10{color: #2c3e50;}
+.fa-color-11{color: #f1c40f;}
+.fa-color-12{color: #e67e22;}
+.fa-color-13{color: #e74c3c;}
+.fa-color-14{color: #ecf0f1;}
+.fa-color-15{color: #95a5a6;}
+.fa-color-16{color: #f39c12;}
+.fa-color-17{color: #d35400;}
+.fa-color-18{color: #c0392b;}
+.fa-color-19{color: #bdc3c7;}
+.fa-color-20{color: #7f8c8d;}
+.fa-color-21{color: white;}

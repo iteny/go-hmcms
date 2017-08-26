@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>菜单配置</title>
-    <link rel="stylesheet" type="text/css" href="/static/intendant/css/admin.css">
-    <link rel="stylesheet" type="text/css" href="/static/intendant/css/frame.css">
-    <link rel="stylesheet" type="text/css" href="/static/common/js/ztree/zTreeStyle.css">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/intendant/css/admin.css">
+    <link rel="stylesheet" href="/static/intendant/css/frame.css">
+    <link rel="stylesheet" href="/static/common/js/ztree/zTreeStyle.css">
+    <link rel="stylesheet" href="/static/common/css/font-awesome.min.css">
 </head>
 <body>
 <div id="frame_top">
-    当前位置&nbsp;<i class="iconfont" style="color:#666;font-size: 12px;">&#xe60e;</i>&nbsp;&nbsp;设置&nbsp;&nbsp;<i class="iconfont" style="color:#666;font-size: 12px;">&#xe60f;</i>&nbsp;&nbsp;站长设置&nbsp;&nbsp;<i class="iconfont" style="color:#666;font-size: 12px;">&#xe60f;</i>&nbsp;&nbsp;菜单设置&nbsp;&nbsp;<i class="iconfont" style="color:#666;font-size: 12px;">&#xe60f;</i>&nbsp;&nbsp;添加菜单
+    当前位置&nbsp;&nbsp;<i class="fa fa-hand-o-right" style="display:inline"></i>&nbsp;&nbsp;设置&nbsp;&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;&nbsp;站长设置&nbsp;&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;&nbsp;菜单设置&nbsp;&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;&nbsp;添加菜单
 </div>
 <div id="frame_toolbar">
     <ul>
@@ -27,25 +27,25 @@
         <div class="frame_table_list">
             <div class="input_title">添加菜单</div>
             <div id="hm_tree">
-                <ul id="treeMenu" class="ztree" style="margin-top:0;width:178px;height:280px;overflow:auto;">
+                <ul id="treeMenu" class="ztree" style="margin-top:0;width:296px;height:280px;overflow:auto;">
                 </ul>
             </div>
             <table cellpadding="0" cellspacing="0" class="table_form" width="100%">
                 <tbody>
                 <tr>
                     <td width="140">上级菜单:</td>
-                    <td>
-                        <input type="text" class="input length_3" name="pid" value="" id="pid" disabled>
+                    <td width="290">
+                        <input type="text" class="input length_5" value="" id="menuName" disabled>
+                        <input type="hidden" value="" name="pid" id="pid">
+
+
                         <!-- <select name="pid" class="length_5"> -->
                         <!-- <option value="0" <if condition='$parentid eq 0'>selected</if>>顶级菜单</option> -->
 	                  <!-- <volist name="selectMenu" id="vo">
 	                  	<option value="{$vo.id}" <if condition='$vo["id"] eq $pid'>selected</if>>{:str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;',$vo['level'])}<if condition='$vo["level"] gt 0'>├─</if>{$vo.html}{$vo.title}</option>
 	                  </volist> -->
-                      <a class="btn" onclick="showTree('pid')">选择图标</a>
-
-
-
                     </td>
+                    <td align="left"><a id="ztreebtn" class="btn" onclick="showTree('menuName')">选择图标</a></td>
                 </tr>
                 <tr>
                     <td>菜单名称:</td>
@@ -123,6 +123,11 @@ var setting = {
     //     enable: true,
     //     chkboxType:{ "Y" : "ps", "N" : "ps" }
     // },
+    view:{
+        nameIsHTML: false,
+        dblClickExpand: false,
+        fontCss : {color:"#0F0F0E"}
+    },
     data: {
         simpleData: {
             enable: true,
@@ -132,23 +137,37 @@ var setting = {
     },
     callback: {
         beforeClick: function (treeId, treeNode) {
-            if (treeNode.isParent) {
-                zTree.expandNode(treeNode);
-                return false;
-            } else {
-                return true;
-            }
+            // if (treeNode.isParent) {
+            //     zTree.expandNode(treeNode);
+            //     return false;
+            // } else {
+            //     return true;
+            // }
+            var check = (treeNode && treeNode.isParent);
+			if (!check) admin.alert('提示信息',"不允许创建4级菜单！",2,'3000');;
+			return check;
         },
-        onClick:function(event, treeId, treeNode){
+        onClick:function(e, treeId, treeNode){
             //栏目ID
-            var catid = treeNode.catid;
-            //保存当前点击的栏目ID
-            setCookie('tree_catid',catid,1);
+            // var catid = treeNode.catid;
+            // //保存当前点击的栏目ID
+            // setCookie('tree_catid',catid,1);
+            var zTree = $.fn.zTree.getZTreeObj("treeMenu"),
+			nodes = zTree.getSelectedNodes(),
+			v = "";
+            id= "";
+			nodes.sort(function compare(a,b){return a.id-b.id;});
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+                id = nodes[i].id;
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#menuName");
+			cityObj.attr("value", v);
+            $("#pid").attr("value",id)
         }
     },
-    view:{
-        nameIsHTML: true
-    }
+
 };
 //节点数据
 var zNodes = {{.json}};
@@ -167,6 +186,15 @@ function showTree(domId) {
     $("#hm_tree").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
 
     $("body").bind("mousedown", onBodyDown);
+}
+function hideMenu() {
+    $("#hm_tree").fadeOut("fast");
+    $("body").unbind("mousedown", onBodyDown);
+}
+function onBodyDown(event) {
+    if (!(event.target.id == "ztreebtn" || event.target.id == "hm_tree" || $(event.target).parents("#hm_tree").length>0)) {
+        hideMenu();
+    }
 }
     function Select_System_Menu_icons(icon){
         $("#System_Menu_icons").html('<i class="iconfont">'+icon+'</i>');

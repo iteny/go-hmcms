@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>后台首页</title>
+	<link rel="stylesheet" href="/static/common/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/static/intendant/css/admin.css">
 </head>
 <body style="height:100%;">
@@ -66,10 +67,10 @@
 	</div>
 	<div id="hmRight" style="z-index:999999;">
         <div class="options_refresh">
-            <a href="" id="J_refresh" class="bsn refresh" title="刷新"><i class="iconfont" style="color:white;font-size: 13px;">&#xe608;</i></a>
+            <a href="" id="J_refresh" class="bsn refresh" title="刷新"><i class="fa fa-refresh" style="color:white;font-size: 13px;"></i></a>
 		</div>
 		<div class="options">
-            <a href="" id="J_fullScreen" class="bsn full_screen active" title="最大化/最小化"><i class="iconfont" style="color:white;font-size: 13px;">&#xe609;</i></a>
+            <a href="" id="J_fullScreen" class="bsn full_screen active" title="最大化/最小化"><i class="fa fa-window-maximize" style="color:white;font-size: 13px;"></i></a>
         </div>
         <iframe name="rightFrame" id="iframe_default" src="/intendant/home" style="height: 100%; width: 100%;display:block;" data-id="default" frameborder="0" scrolling="auto"></iframe>
     </div>
@@ -82,37 +83,40 @@ $('#hmLeft').height(hg);
 $('#left-menu').on("click",'h2.open',function(event){
 	if($(this).hasClass("active")){
 		$(this).removeClass("active");
-		$(this).find('i.tou').html('&#xe603;');
+		$(this).find('i.tou').attr("class","tou fa fa-caret-right fa-color-1");
 		$(this).next('ul').hide();
 		// $(this).next('ul').animate({opacity:0},'slow');
 	}else{
 		$(this).addClass("active");
-		$(this).find('i.tou').html('&#xe604;');
+		$(this).find('i.tou').attr("class","tou fa fa-caret-down fa-color-1");
 		$(this).next('ul').show();
 		// $(this).next('ul').animate({opacity:1},'slow');
 	}
 });
 $('#hmLeft').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;overflow-x:auto;overflow-y:auto;');
 $('#hmRight').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;overflow-x:auto;overflow-y:auto;');
-if($('h2').attr('aria-expanded') == 'true'){
-	$('i.tou').html('&#xe604;');
-}
-if($('h2').attr('aria-expanded') == 'false'){
-	$('i.tou').html('&#xe603;');
-}
+// if($('h2').attr('aria-expanded') == 'true'){
+// 	$('i.tou').html('&#xe604;');
+// }
+// if($('h2').attr('aria-expanded') == 'false'){
+// 	$('i.tou').html('&#xe603;');
+// }
 $('#hmLeft div.click').click(function(){
 	if($(this).hasClass("active")){
 		$(this).removeClass("active");
 		$('#hmLeft').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;display:none;overflow-x:auto;overflow-y:auto;')
 		$('#hmLeft').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;display:block;width:50px;overflow-x:auto;overflow-y:auto;')
 		$('#hmRight').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;margin-left: 51px');
-		$('#menu li').attr('style','text-indent: 18px;margin:0;')
+		$('#menu li').attr('style','text-indent: 9px;margin:0;')
+		$('#menu h2').attr('style','text-indent:10px;padding-right:10px;')
+
 	}else{
 		$(this).addClass("active");
 		$('#hmLeft').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;display:none;overflow-x:auto;overflow-y:auto;')
 		$('#hmLeft').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;display:block;width:180px;overflow-x:auto;overflow-y:auto;')
 		$('#hmRight').attr('style','height:'+($(window).height()-$('#hmHead').height())+'px;margin-left: 181px');
-		$('#menu li').attr('style','text-indent: 25px;margin:0 10px;')
+		$('#menu li').attr('style','text-indent: 20px;margin:0 10px;')
+		$('#menu h2').attr('style','text-indent:15px;')
 	}
 });
 $('#left-menu').on("mouseover mouseout",'a.west',function(event){
@@ -190,7 +194,7 @@ $(".top-nav").click(function(e) {
 			for(var i=0; i<count; i++)
 			{
 				str += '<div data-collapse>';
-				str += '<h2 style="position: relative;" class="open west active" data-name="'+data[i]['name']+'"><i class="tou iconfont" style="font-size: 18px;">&#xe604;</i><em>'+data[i]['name']+'</em><i class="htwo iconfont" style="font-size: 12px;position: relative;right: -55px;">&#xe605;</i></h2>';
+				str += '<h2 style="position: relative;" class="open west active" data-name="'+data[i]['name']+'"><i class="tou fa fa-caret-down fa-color-1" style="font-size: 18px;"></i><em>'+data[i]['name']+'</em><i class="fa fa-cog" style="position: relative;right: -45px;color:#FC635D;font-size:14px;"></i></h2>';
 				str += '<ul>';
 				var icount = data[i]['children'].length;
 				for(var s=0; s<icount; s++)
@@ -199,7 +203,7 @@ $(".top-nav").click(function(e) {
 						var icon = "&#xe60a";
 					}
 					var thdizhi = '/intendant/'+data[i]['children'][s]['url'];
-					str += '<li><a class="west" href="'+thdizhi+'" target="rightFrame" data-name="'+data[i]['children'][s]['name']+'"><i class="iconfont" style="color:white;font-size: 14px;">'+icon+'</i><em>'+data[i]['children'][s]['name']+'</em></a></li>';
+					str += '<li><a class="west" href="'+thdizhi+'" target="rightFrame" data-name="'+data[i]['children'][s]['name']+'"><i class="fa '+data[i]['children'][s]['iconSkin']+'" style="color:white;font-size: 18px;"></i><em>'+data[i]['children'][s]['name']+'</em></a></li>';
 				}
 				str += '</ul>';
 				str += '</div>';

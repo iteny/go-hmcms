@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>菜单配置</title>
+    <link rel="stylesheet" href="/static/common/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/static/intendant/css/admin.css">
     <link rel="stylesheet" type="text/css" href="/static/intendant/css/frame.css">
 </head>
 <body>
 <div id="frame_top">
-    当前位置&nbsp;<i class="iconfont" style="color:#666;font-size: 12px;">&#xe60e;</i>&nbsp;&nbsp;设置&nbsp;&nbsp;<i class="iconfont" style="color:#666;font-size: 12px;">&#xe60f;</i>&nbsp;&nbsp;站长设置&nbsp;&nbsp;<i class="iconfont" style="color:#666;font-size: 12px;">&#xe60f;</i>&nbsp;&nbsp;菜单设置
+    当前位置&nbsp;&nbsp;<i class="fa fa-hand-o-right" style="display:inline"></i>&nbsp;&nbsp;设置&nbsp;&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;&nbsp;站长设置&nbsp;&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;&nbsp;菜单设置
 </div>
 <div id="frame_toolbar">
     <ul>
@@ -44,10 +45,10 @@
             </thead>
             {{range .json}}
             <tr data-tt-id="{{.Id}}" {{if eq .Pid 0}}{{else}}data-tt-parent-id="{{.Pid}}"{{end}}>
-                <td align="center"><input style="text-align: center" name="{{.Id}}" type="text" size="3" value="{{.Sort}}" class="input"></td>
+                <td align="center"><input style="text-align: center" name="{{.Id}}" type="text" size="3" value="{{.Sort}}" class="input ipsort"></td>
                 <td align="center">{{.Id}}</td>
-                <td style="text-indent:25px;"><i class="iconfont" style="color:#666;font-size: 14px;">&#xe600;</i>&nbsp;&nbsp;{{.Name}}</td>
-                <td align="center">{{if eq .Isshow 1}}<i class="iconfont" style="color:green;font-size: 16px;">&#xe60c;</i>{{else}}<i class="iconfont" style="color:red;font-size: 16px;">&#xe60a;</i>{{end}}</td>
+                <td style="text-indent:25px;"><i class="fa {{.Icon}}" style="display:inline;"></i>&nbsp;&nbsp;{{.Name}}</td>
+                <td align="center">{{if eq .Isshow 1}}<i class="fa fa-check" style="color:white;background-color:green;border-radius:25px;padding:3px;"></i>{{else}}<i class="fa fa-remove" style="color:white;background-color:red;border-radius:25px;padding:3px;"></i>{{end}}</td>
                 <td align="center">{{.Url}}</td>
                 <td align="center"><a class="ajax-add blue" href="/intendant/site/addEditMenu?pid={{.Id}}" data-level="{{.Level}}"><i class="iconfont" style="color:white;font-size: 16px;">&#xe610;</i>&nbsp;&nbsp;添加子菜单</a>&nbsp;&nbsp;&nbsp;<a class="ajax-edit blue" href="/intendant/site/addEditMenu?id={{.Id}}"><i class="iconfont" style="color:white;font-size: 16px;">&#xe615;</i>&nbsp;&nbsp;修改</a>&nbsp;&nbsp;&nbsp;<a class="ajax-del red" data-title="{$menu['title']}" data-type="菜单" href="/Intendant/Site/delMenu" data-id="{{.Id}}"><i class="iconfont" style="color:white;font-size: 16px;">&#xe614;</i>&nbsp;&nbsp;删除</a> </td>
             </tr>
@@ -71,6 +72,11 @@
 <script src="/static/intendant/js/admin.common.js"></script>
 <script src="/static/intendant/js/common.ajax.js"></script>
 <script>
+window.onload = function()
+{
+    $('#example-advanced').treetable('expandAll');
+}
+
 var option = {
     expandable: true,
     expandLevel : 3,

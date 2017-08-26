@@ -88,6 +88,7 @@
 
       this.expander.attr("class", this.settings.stringCollapse);
       this.expander.find("i").html("&#xe604;");
+    //   this.expander.find("i").attr("class","tou fa fa-caret-down fa-color-1");
       return this;
     };
 
