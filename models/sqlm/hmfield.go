@@ -1,5 +1,7 @@
 package sqlm
 
+import "database/sql"
+
 type User struct {
 	Id         int
 	Username   string
@@ -14,15 +16,16 @@ type User struct {
 
 //table hm_auth_rule
 type AuthRule struct {
-	Id       int        `json:"id"`
-	Url      string     `json:"url"`
-	Name     string     `json:"name"`
-	Pid      int        `json:"pid"`
-	Isshow   int        `json:"isshow"`
-	Sort     int        `json:"sort"`
-	Icon     string     `json:"iconSkin"`
-	Level    int        `json:"level"`
-	Children []AuthRule `json:"children"`
+	Id       int            `json:"id"`
+	Url      string         `json:"url"`
+	Name     string         `json:"name"`
+	Pid      int            `json:"pid"`
+	Isshow   int            `json:"isshow"`
+	Sort     int            `json:"sort"`
+	Icon     string         `json:"iconSkin"`
+	Level    int            `json:"level"`
+	Color    sql.NullString `json:"color"`
+	Children []AuthRule     `json:"children"`
 }
 
 //递归重新排序无限极分类

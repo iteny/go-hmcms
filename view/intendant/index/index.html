@@ -39,7 +39,7 @@
 	</div>
 	<div id="hmLeft" style="overflow-x:auto;overflow-y:auto;">
 		<div id="menu">
-            <div class="click active"><i class="iconfont" style="color:#34c84a;font-size: 18px;">&#xe606;</i></div>
+            <div class="click active"><i class="fa fa-bars fa-rotate-90 fa-mac-1 fa-lg"></i></div>
             <div id="left-menu">
                 <div data-collapse>
                     <h2 style="position: relative;" class="open west active" title="Listen!"><i class="tou iconfont" style="font-size: 18px;">&#xe604</i><em>管理首页</em><i class="htwo iconfont" style="font-size: 12px;position: relative;right: -55px;">&#xe605;</i></h2>
@@ -78,17 +78,19 @@
 </body>
 <script src="/static/common/js/jquery-1.12.3.min.js"></script>
 <script type="text/javascript">
-var hg = window.innerHeight  - 40;
+var hg = window.innerHeight  - 40,ccolor = '';
 $('#hmLeft').height(hg);
 $('#left-menu').on("click",'h2.open',function(event){
 	if($(this).hasClass("active")){
 		$(this).removeClass("active");
-		$(this).find('i.tou').attr("class","tou fa fa-caret-right fa-color-1");
+		ccolor = $(this).find('i.tou').attr('data-color');
+		$(this).find('i.tou').attr("class","tou fa fa-caret-right "+ccolor);
 		$(this).next('ul').hide();
 		// $(this).next('ul').animate({opacity:0},'slow');
 	}else{
 		$(this).addClass("active");
-		$(this).find('i.tou').attr("class","tou fa fa-caret-down fa-color-1");
+		ccolor = $(this).find('i.tou').attr('data-color');
+		$(this).find('i.tou').attr("class","tou fa fa-caret-down "+ccolor);
 		$(this).next('ul').show();
 		// $(this).next('ul').animate({opacity:1},'slow');
 	}
@@ -189,21 +191,33 @@ $(".top-nav").click(function(e) {
 				return false;
 			}
 			$('#left-menu').html('');
-			var str = '';
-			var count = data.length;
+			var str = '',toucolor = '',count = data.length;
 			for(var i=0; i<count; i++)
 			{
+				if (data[i]['color']['String'] == '') {
+					toucolor = "fa-mac-2";
+				}else{
+					toucolor = data[i]['color']['String'];
+				}
 				str += '<div data-collapse>';
-				str += '<h2 style="position: relative;" class="open west active" data-name="'+data[i]['name']+'"><i class="tou fa fa-caret-down fa-color-1" style="font-size: 18px;"></i><em>'+data[i]['name']+'</em><i class="fa fa-cog" style="position: relative;right: -45px;color:#FC635D;font-size:14px;"></i></h2>';
+				str += '<h2 style="position: relative;" class="open west active" data-name="'+data[i]['name']+'"><i data-color="'+toucolor+'" class="tou fa fa-caret-down '+toucolor+'" style="font-size: 18px;"></i><em>'+data[i]['name']+'</em><i class="fa fa-cog" style="position: relative;right: -45px;color:#FC635D;font-size:14px;"></i></h2>';
 				str += '<ul>';
 				var icount = data[i]['children'].length;
+				var icon = "",color = "";
 				for(var s=0; s<icount; s++)
 				{
-					if(data[i]['children'][s]['icon'] == 0){
-						var icon = "&#xe60a";
+					if(data[i]['children'][s]['iconSkin'] == ""){
+						icon = "fa-folder";
+					}else{
+						icon = data[i]['children'][s]['iconSkin'];
+					}
+					if(data[i]['children'][s]['color']['String'] == ""){
+						color = "fa-mac-2";
+					}else{
+						color = data[i]['children'][s]['color']['String'];
 					}
 					var thdizhi = '/intendant/'+data[i]['children'][s]['url'];
-					str += '<li><a class="west" href="'+thdizhi+'" target="rightFrame" data-name="'+data[i]['children'][s]['name']+'"><i class="fa '+data[i]['children'][s]['iconSkin']+'" style="color:white;font-size: 18px;"></i><em>'+data[i]['children'][s]['name']+'</em></a></li>';
+					str += '<li><a class="west" href="'+thdizhi+'" target="rightFrame" data-name="'+data[i]['children'][s]['name']+'"><i class="fa fa-lg '+icon+' '+color+'"></i><em>'+data[i]['children'][s]['name']+'</em></a></li>';
 				}
 				str += '</ul>';
 				str += '</div>';

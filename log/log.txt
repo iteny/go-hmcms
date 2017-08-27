@@ -1,13 +1,8 @@
-near "FROM": syntax error
-near "FROM": syntax error
-t/index.go:31line info: missing destination name id in *[]sqlm.AuthRule
-n error number not found!
-login error number not found!
-login error number not found!
-ers/intendant/index.go:34line info:menu not found
-path:./controllers/intendant/index.go:34line info:menu not found
-path:./controllers/intendant/index.go:34line info:menu not found
-path:./controllers/intendant/index.go:34line info:menu not found
+sql: Scan error on column index 8: unsupported Scan, storing driver.Value type <nil> into type *string
+sql: Scan error on column index 8: unsupported Scan, storing driver.Value type <nil> into type *string
+sql: Scan error on column index 8: unsupported Scan, storing driver.Value type <nil> into type *string
+sql: Scan error on column index 8: unsupported Scan, storing driver.Value type <nil> into type *string
+endant/index.go:34line info:menu not found
 path:./controllers/intendant/index.go:34line info:menu not found
 path:./controllers/intendant/index.go:34line info:menu not found
 path:./controllers/intendant/index.go:34line info:menu not found

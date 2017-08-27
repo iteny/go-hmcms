@@ -95,6 +95,7 @@ list-style-type: none;
     background: #3B91F9;
 	border-bottom: 1px solid #3B91F9;
 }
+
 #access li a:hover{
 	box-shadow: inset 0px 0px 0px #fff;
 	color: white;
@@ -202,9 +203,7 @@ list-style-type: none;
     height: 38px;
     line-height: 38px;
 }
-#menu h2:hover i.tou{
-	color: white;
-}
+
 #hmRight{
     margin-left: 181px;
     z-index: 9999;
@@ -314,6 +313,8 @@ list-style-type: none;
 	color:#707070;font-size: 12px;
 }
 /*字体图标的配色方案*/
+.fa-mac-1{color: #34C749;}
+.fa-mac-2{color: #FC635D;}
 .fa-color-1{color: #1abc9c;}
 .fa-color-2{color: #2ecc71;}
 .fa-color-3{color: #3498db;}
@@ -335,3 +336,7 @@ list-style-type: none;
 .fa-color-19{color: #bdc3c7;}
 .fa-color-20{color: #7f8c8d;}
 .fa-color-21{color: white;}
+
+#menu li a:hover i,#menu li.action i{
+	color: white;
+}

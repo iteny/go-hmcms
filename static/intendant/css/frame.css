@@ -428,3 +428,30 @@ table.treetable tr.expanded span.indenter a i{
     border-image: initial;
     border-top: 0;
 }
+/*字体图标的配色方案*/
+.fa-mac-1{color: #34C749;}
+.fa-mac-2{color: #FC635D;}
+.fa-color-1{color: #1abc9c;}
+.fa-color-2{color: #2ecc71;}
+.fa-color-3{color: #3498db;}
+.fa-color-4{color: #9b59b6;}
+.fa-color-5{color: #34495e;}
+.fa-color-6{color: #16a085;}
+.fa-color-7{color: #27ae60;}
+.fa-color-8{color: #2980b9;}
+.fa-color-9{color: #8e44ad;}
+.fa-color-10{color: #2c3e50;}
+.fa-color-11{color: #f1c40f;}
+.fa-color-12{color: #e67e22;}
+.fa-color-13{color: #e74c3c;}
+.fa-color-14{color: #ecf0f1;}
+.fa-color-15{color: #95a5a6;}
+.fa-color-16{color: #f39c12;}
+.fa-color-17{color: #d35400;}
+.fa-color-18{color: #c0392b;}
+.fa-color-19{color: #bdc3c7;}
+.fa-color-20{color: #7f8c8d;}
+.fa-color-21{color: white;}
+.frame_table_list tbody tr:hover td i{
+    color: white;
+}

@@ -90,5 +90,6 @@ func (c *IndexController) GetLeftMenu(w http.ResponseWriter, r *http.Request) {
 			rule[k].Children = append(rule[k].Children, srule[tk])
 		}
 	}
+	fmt.Println(rule)
 	fmt.Fprint(w, common.RowsJson(rule))
 }

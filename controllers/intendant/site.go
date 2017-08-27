@@ -82,7 +82,7 @@ func (c *SiteController) AddEditMenuGet(w http.ResponseWriter, r *http.Request) 
 	// ss := r.Form["pid"]
 	fmt.Printf("id=%v,pid=%v", s1, s2)
 	data := make(map[string]interface{})
-	sqls := "SELECT id,name,pid,isshow,sort,icon,level FROM hm_auth_rule"
+	sqls := "SELECT id,name,pid,isshow,sort,icon,level,color FROM hm_auth_rule"
 	allrule := []sqlm.AuthRule{}
 	err := sqlm.DB.Select(&allrule, sqls)
 	if err != nil {
