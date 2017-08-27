@@ -1,11 +1,10 @@
-sql: Scan error on column index 8: unsupported Scan, storing driver.Value type <nil> into type *string
-sql: Scan error on column index 8: unsupported Scan, storing driver.Value type <nil> into type *string
-sql: Scan error on column index 8: unsupported Scan, storing driver.Value type <nil> into type *string
-sql: Scan error on column index 8: unsupported Scan, storing driver.Value type <nil> into type *string
-endant/index.go:34line info:menu not found
-path:./controllers/intendant/index.go:34line info:menu not found
-path:./controllers/intendant/index.go:34line info:menu not found
-path:./controllers/intendant/index.go:34line info:menu not found
+sql: Scan error on column index 7: converting driver.Value type []uint8 ("") to a int64: invalid syntax
+sql: Scan error on column index 7: converting driver.Value type []uint8 ("") to a int64: invalid syntax
+sql: Scan error on column index 7: converting driver.Value type []uint8 ("") to a int64: invalid syntax
+sql: Scan error on column index 7: converting driver.Value type []uint8 ("") to a int64: invalid syntax
+sql: Scan error on column index 7: converting driver.Value type []uint8 ("") to a int64: invalid syntax
+sql: Scan error on column index 7: converting driver.Value type []uint8 ("") to a int64: invalid syntax
+4line info:menu not found
 path:./controllers/intendant/index.go:34line info:menu not found
 path:./controllers/intendant/index.go:34line info:menu not found
 path:./controllers/intendant/index.go:34line info:menu not found

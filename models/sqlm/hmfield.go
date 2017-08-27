@@ -2,6 +2,8 @@ package sqlm
 
 import "database/sql"
 
+var levelnum int64 = 1
+
 type User struct {
 	Id         int
 	Username   string
@@ -31,12 +33,18 @@ type AuthRule struct {
 //递归重新排序无限极分类
 func RecursiveMenu(arr []AuthRule, pid int, level int) (ar []AuthRule) {
 	array := make([]AuthRule, 0)
+	// levelnum = 1
 	for k, v := range arr {
 		if pid == v.Pid {
+
+			arr[k].Level = level + 1
 			array = append(array, arr[k])
+			// fmt.Printf("%#v", array)
+
 			rm := RecursiveMenu(arr, v.Id, level+1)
 			for km, _ := range rm {
 				array = append(array, rm[km])
+				// array[km].Level = array[km].Level + 1
 			}
 		}
 	}

@@ -27,6 +27,7 @@ type server struct {
 func main() {
 	v, _ := mem.VirtualMemory()
 	fmt.Printf("Total: %v, Free:%v, UsedPercent:%f%%\n", v.Total, v.Free, v.UsedPercent)
+
 	server := &server{Addr: "80", ReadTimeout: 10, WriteTimeout: 10}
 	if servPort := ini.Value("servSet", "port"); servPort != "" {
 		server.Addr = servPort

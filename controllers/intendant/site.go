@@ -33,6 +33,7 @@ func (c *SiteController) Menu(w http.ResponseWriter, r *http.Request) {
 		common.Log.Error(err)
 	}
 	ar := sqlm.RecursiveMenu(allrule, 0, 0)
+	// fmt.Println(ar)
 	data["json"] = ar
 	tl, _ := template.ParseFiles("./view/intendant/site/menu.html")
 	tl.Execute(w, data)
@@ -75,12 +76,11 @@ func (c *SiteController) SortMenu(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, common.ResponseJson(1, "菜单排序成功！"))
 }
 func (c *SiteController) AddEditMenuGet(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query()
-	s1 := query["id"]
-	s2 := query["pid"]
-	// s := r.Form["id"]
-	// ss := r.Form["pid"]
-	fmt.Printf("id=%v,pid=%v", s1, s2)
+	// query := r.URL.Query()
+	// s1 := query["id"]
+	// s2 := query["pid"]
+
+	// fmt.Printf("id=%v,pid=%v", s1, s2)
 	data := make(map[string]interface{})
 	sqls := "SELECT id,name,pid,isshow,sort,icon,level,color FROM hm_auth_rule"
 	allrule := []sqlm.AuthRule{}
