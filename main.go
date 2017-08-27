@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"go-hmcms/controllers/intendant"
 	"go-hmcms/models/ini"
 	_ "go-hmcms/models/sqlm"
@@ -14,6 +15,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/shirou/gopsutil/mem"
 )
 
 type server struct {
@@ -23,6 +25,8 @@ type server struct {
 }
 
 func main() {
+	v, _ := mem.VirtualMemory()
+	fmt.Printf("Total: %v, Free:%v, UsedPercent:%f%%\n", v.Total, v.Free, v.UsedPercent)
 	server := &server{Addr: "80", ReadTimeout: 10, WriteTimeout: 10}
 	if servPort := ini.Value("servSet", "port"); servPort != "" {
 		server.Addr = servPort
@@ -96,6 +100,7 @@ func intendantRoutes() http.Handler {
 			r.Get("/?pid={articleID}", intendant.SiteCtl.AddEditMenuGet)
 			r.Get("/?id={articleID}", intendant.SiteCtl.AddEditMenuGet)
 			r.Post("/", intendant.SiteCtl.AddEditMenuPost)
+
 		})
 	})
 	return r
