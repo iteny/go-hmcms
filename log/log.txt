@@ -1,4 +1,5 @@
-sql: Scan error on column index 7: converting driver.Value type []uint8 ("") to a int64: invalid syntax
+sql: converting Exec argument $1 type: unsupported type []string, a slice of string
+t64: invalid syntax
 sql: Scan error on column index 7: converting driver.Value type []uint8 ("") to a int64: invalid syntax
 sql: Scan error on column index 7: converting driver.Value type []uint8 ("") to a int64: invalid syntax
 sql: Scan error on column index 7: converting driver.Value type []uint8 ("") to a int64: invalid syntax

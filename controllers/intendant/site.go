@@ -75,34 +75,63 @@ func (c *SiteController) SortMenu(w http.ResponseWriter, r *http.Request) {
 	tx.Commit()
 	fmt.Fprint(w, common.ResponseJson(1, "菜单排序成功！"))
 }
-func (c *SiteController) AddEditMenuGet(w http.ResponseWriter, r *http.Request) {
-	// query := r.URL.Query()
-	// s1 := query["id"]
-	// s2 := query["pid"]
 
-	// fmt.Printf("id=%v,pid=%v", s1, s2)
+// add or edit page
+func (c *SiteController) AddEditMenuGet(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
+	query := r.URL.Query()
+	id := query["id"]
+	pid := query["pid"]
+	ruleSingle := sqlm.AuthRule{}
+	//that's rule tree
 	sqls := "SELECT id,name,pid,isshow,sort,icon,level,color FROM hm_auth_rule"
 	allrule := []sqlm.AuthRule{}
 	err := sqlm.DB.Select(&allrule, sqls)
 	if err != nil {
 		common.Log.Error(err)
 	}
-	fmt.Println(allrule)
-	// rows, _ := sqlm.DB.NamedQuery(sqls, map[string]interface{}{"fn": "Bin"})
-	// for rows.Next() {
-	// 	err := rows.StructScan(&allrule)
-	// 	if err != nil {
-	// 		log.Fatalln(err)
-	// 	}
-	// }
-	// 	fmt.Printf("%#v\n", allrule)
-	// }
-	// fmt.Println(rows)
 	data["json"] = allrule
-	tl, _ := template.ParseFiles("./view/intendant/site/addMenu.html")
-	tl.Execute(w, data)
+	if id != nil { //when id is null,It's edit menu.
+		tl, _ := template.ParseFiles("./view/intendant/site/editMenu.html")
+		tl.Execute(w, data)
+	} else {
+		if pid != nil { //add submenu
+			err := sqlm.DB.Get(&ruleSingle, "SELECT id,name FROM hm_auth_rule WHERE id = ?", pid[0])
+			if err != nil {
+				common.Log.Error(err)
+			}
+			data["merule"] = ruleSingle
+		} else { //add menu
+			data["merule"] = ruleSingle
+		}
+		tl, _ := template.ParseFiles("./view/intendant/site/addMenu.html")
+		tl.Execute(w, data)
+	}
+
 }
+
+//Get Icons
+func (c *SiteController) IconsCls(w http.ResponseWriter, r *http.Request) {
+	dat, err := ioutil.ReadFile("./static/common/fonts/icons.css")
+	if err != nil {
+		common.Log.Error(err)
+	}
+	var ss []string
+	s := string(dat)
+	// fmt.Printf("%#v", s)
+	for _, v := range strings.Split(s, "\n") {
+		v = strings.TrimSpace(v)
+		if v == "" {
+			continue
+		}
+		ss = append(ss, v)
+	}
+	fmt.Println(ss)
+	// s := strings.Split(dat, "}")
+	fmt.Fprint(w, common.RowsJson(ss))
+}
+
+//add or edit menu commit
 func (c *SiteController) AddEditMenuPost(w http.ResponseWriter, r *http.Request) {
 	tl, _ := template.ParseFiles("./view/intendant/site/addMenu.html")
 	tl.Execute(w, nil)

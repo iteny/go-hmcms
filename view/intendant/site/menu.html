@@ -47,7 +47,7 @@
             <tr data-tt-id="{{.Id}}" {{if eq .Pid 0}}{{else}}data-tt-parent-id="{{.Pid}}"{{end}}>
                 <td align="center"><input style="text-align: center" name="{{.Id}}" type="text" size="3" value="{{.Sort}}" class="input ipsort"></td>
                 <td align="center">{{.Id}}</td>
-                <td style="text-indent:25px;"><i class="fa {{.Icon}} {{if eq .Color.String ""}}fa-mac-2{{else}}{{.Color.String}}{{end}}" style="display:inline;"></i>&nbsp;&nbsp;{{.Name}}</td>
+                <td style="{{if eq .Level 1}}text-indent:10px;{{else if eq .Level 2}}text-indent:20px;{{else}}text-indent:35px;{{end}}"><i class="fa {{.Icon}} {{if eq .Color.String ""}}fa-mac-2{{else}}{{.Color.String}}{{end}}" style="display:inline;"></i>&nbsp;&nbsp;{{.Name}}</td>
                 <td align="center">{{if eq .Isshow 1}}<i class="fa fa-check" style="color:white;background-color:green;border-radius:25px;padding:3px;"></i>{{else}}<i class="fa fa-remove" style="color:white;background-color:red;border-radius:25px;padding:3px;"></i>{{end}}</td>
                 <td align="center">{{.Url}}</td>
                 <td align="center"><a class="ajax-add blue" href="/intendant/site/addEditMenu?pid={{.Id}}" data-level="{{.Level}}"><i class="fa fa-plus-square fa-color-21 fa-lg" style="color:white;"></i>&nbsp;&nbsp;添加子菜单</a>&nbsp;&nbsp;&nbsp;<a class="ajax-edit blue" href="/intendant/site/addEditMenu?id={{.Id}}"><i class="fa fa-pencil-square-o fa-color-21 fa-lg"></i>&nbsp;&nbsp;修改</a>&nbsp;&nbsp;&nbsp;<a class="ajax-del red" data-title="{$menu['title']}" data-type="菜单" href="/Intendant/Site/delMenu" data-id="{{.Id}}"><i class="fa fa-trash-o fa-color-21 fa-lg"></i>&nbsp;&nbsp;删除</a> </td>

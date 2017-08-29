@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>添加菜单</title>
+    <title>修改菜单</title>
     <link rel="stylesheet" href="/static/intendant/css/admin.css">
     <link rel="stylesheet" href="/static/intendant/css/frame.css">
     <link rel="stylesheet" href="/static/common/js/ztree/zTreeStyle.css">
@@ -21,7 +21,7 @@
     </ul>
 </div>
 <div id="frame_content">
-    <form name="addMenu" method="post" class="J_ajaxForm layui-form" action="/intendant/site/addEditMenu" novalidate="novalidate">
+    <form name="addMenu" method="post" class="J_ajaxForm" action="/intendant/site/addEditMenu" novalidate="novalidate">
         <input type="hidden" name="addEditMenu" value="addEditMenu">
 
         <div class="frame_table_list">
@@ -49,16 +49,16 @@
                 </tr>
                 <tr>
                     <td>菜单名称:</td>
-                    <td><input type="text" class="input length_5" name="name" value="" id="name"></td>
+                    <td><input type="text" class="input length_5" name="title" value="" id="title"></td>
                 </tr>
                 <tr>
-                    <td>路由地址:</td>
-                    <td><input type="text" class="input length_5" name="url" id="url" value=""></td>
+                    <td>控制器/方法:</td>
+                    <td><input type="text" class="input length_5" name="name" id="name" value=""></td>
                 </tr>
-                <!-- <tr>
+                <tr>
                     <td>条件:</td>
                     <td><input type="text" class="input length_5" name="condition" id="condition" value=""></td>
-                </tr> -->
+                </tr>
                 <tr>
                     <td>菜单排序:</td>
                     <td><input type="text" class="input length_5" name="sort" id="sort" value="1"></td>
@@ -66,8 +66,8 @@
                 <tr>
                     <td>菜单图标：</td>
                     <td>
-                        <input id="System_Menu_icons_input" name="icon" type="hidden" value="fa-cog">
-                        <strong id="System_Menu_icons" style="margin-right: 10px;"><i style='color: #666;font-size: 16px;' class='fa fa-cog fa-lg'></i></span></strong>
+                        <input id="System_Menu_icons_input" name="icon" type="hidden" value="&#xe605;">
+                        <strong id="System_Menu_icons" style="margin-right: 10px;"><i style='color: #666;font-size: 16px;' class='iconfont'>&#xe605;</i></span></strong>
                         <a class="btn" onclick="Show_System_Menu_icons()">选择图标</a>
                     </td>
                 </tr>
@@ -77,10 +77,6 @@
                         <option value="1" selected>显示</option>
                         <option value="0">不显示</option>
                     </select>&nbsp;&nbsp;&nbsp;是否显示菜单在后台管理页面上</td>
-                </tr>
-                <tr>
-                    <td>是否显示:</td>
-                    <td><input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭"></td>
                 </tr>
 				<tr>
                     <td>类型:</td>
@@ -109,7 +105,7 @@
 </body>
 <script type="text/javascript">
     var menumanage = '/intendant/Site/menu';
-    var iconPach = '/intendant/site/iconsCls';
+    var iconPach = '/intendant/SiteCom/iconsCls';
     var checkAddMTit = '/intendant/SiteCom/checkAddMTit';
     var checkAddMname = '/intendant/SiteCom/checkAddMname';
 </script>
@@ -121,15 +117,6 @@
 <script src="/static/common/js/ztree/jquery.ztree.excheck.min.js"></script>
 <script src="/static/common/js/poshytip/src/jquery.poshytip.min.js"></script>
 <script>
-layui.use('form', function(){
-  var form = layui.form;
-
-  //监听提交
-  form.on('submit(formDemo)', function(data){
-    layer.msg(JSON.stringify(data.field));
-    return false;
-  });
-});
 //配置
 var setting = {
     // check: {
@@ -211,7 +198,7 @@ function onBodyDown(event) {
     }
 }
     function Select_System_Menu_icons(icon){
-        $("#System_Menu_icons").html('<i class="fa fa-lg '+icon+'"></i>');
+        $("#System_Menu_icons").html('<i class="iconfont">'+icon+'</i>');
         $("#System_Menu_icons_input").val(icon);
         layer.closeAll();
     }
@@ -222,20 +209,19 @@ function onBodyDown(event) {
             shadeClose: true,
             shade: 0.8,
             offset: '100px',
-            area: ['580px', '500px'],
+            area: ['480px', '500px'],
             content: '正在加载图标中...' //iframe的url
         });
         $.post(iconPach,"",function(data){
             if(typeof data == 'object'){
                 var content = [];
                 for(x in data){
-                    content[x] = "<a title='点击选择' style='' class='fa "+data[x]+"' onclick=\"Select_System_Menu_icons('"+data[x]+"')\" style='cursor:pointer;'></a>";
+                    content[x] = "<a style='color: #666;font-size: 16px;cursor: pointer' class='iconfont' onclick=\"Select_System_Menu_icons('"+data[x]+"')\" style='cursor:pointer;'>"+data[x]+"</a>";
                 }
-                // var ss = '<div style="padding:20px">';
-                // ss += content;
-                // ss += '</div>';
-                $('.layui-layer-content').attr("id","hm_icons")
-                $('.layui-layer-content').html("<div style='padding:15px;'>"+content.join(" ")+"</div>");
+                var ss = '<div style="padding:10px">';
+                ss += content;
+                ss += '</div>';
+                $('.layui-layer-content').html("<div style='padding:10px;'>"+content.join(" ")+"</div>");
             } else {
                 $('.layui-layer-content').html("<div style='padding:10px;color: #FFD700;'>图标加载失败，请联系管理员！</div>");
             }

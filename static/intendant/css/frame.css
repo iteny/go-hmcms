@@ -455,3 +455,5 @@ table.treetable tr.expanded span.indenter a i{
 .frame_table_list tbody tr:hover td i{
     color: white;
 }
+#hm_icons a{font-size: 18px;cursor: pointer;padding:8px;color: #666;}
+#hm_icons a:hover{background: #26A866;border-color: #26A866;box-shadow: inset 0px 0px 0px #fff;color: white;}

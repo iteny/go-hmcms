@@ -96,6 +96,7 @@ func intendantRoutes() http.Handler {
 	r.Route("/site", func(r chi.Router) {
 		r.Get("/menu", intendant.SiteCtl.Menu)
 		r.Post("/sortmenu", intendant.SiteCtl.SortMenu)
+		r.Post("/iconsCls", intendant.SiteCtl.IconsCls)
 		r.Route("/addEditMenu", func(r chi.Router) {
 			r.Get("/", intendant.SiteCtl.AddEditMenuGet)
 			r.Get("/?pid={articleID}", intendant.SiteCtl.AddEditMenuGet)
